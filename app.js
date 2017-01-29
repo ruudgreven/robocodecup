@@ -1,6 +1,8 @@
 var express = require('express')
 var app = express()
 
+console.log("Starting Robocodecup webapi");
+
 //Configure API resources
 var ranking = require('./resources/ranking')
 app.use('/api/ranking', ranking)
