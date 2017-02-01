@@ -1,0 +1,119 @@
+{
+	/*
+	REST endpoints:
+	- GET /compititions/
+	- GET /compititions/123
+	- GET /compititions?featured=true
+	- POST /compititions/
+	- PUT /compitions/123
+	- DELETE /compitions/123
+	*/
+	"competitions" : [
+		{
+            "_id": 123,
+			"name": "USEB 2016",
+			"featured": false,
+			"created_on": "201602012119",
+			"rounds" :[
+				{
+					"number": 1,
+					"started_on": "201602012130"
+				},
+				{
+					"number": 2,
+					"started_on": "201602072130"
+				}
+			]
+		},
+		{
+            "_id": 234,
+			"name": "USEB 2017",
+			"featured": true,
+			"created_on": "201702012119",
+			"rounds" :[
+				{
+					"number": 1,
+					"started_on": "201702012130"
+				}
+			]
+		}
+	],
+	/*
+	REST endpoints:
+	- GET /teams/
+	- GET /teams/12345
+	- POST /teams/
+	- PUT /teams/12345
+	- DELETE /teams/12345
+	*/
+	"teams": [
+			{
+				"_id": 12345,
+				"name": "EP_BaseTeam",
+				"fullname": "pgr.team.EP_BaseTeam",
+				"description": "Omschrijving hier",
+				"secret_key": "private",
+				"competition": [234]
+			}, 	
+			{		
+				"_id": 54321,
+				"name": "Crazy",
+				"fullname": "pgr.team.Crazy",
+				"description": "Omschrijving daar",
+				"secret_key": "geheim",
+				"competition": [123, 234]
+			}
+
+		]
+	},
+	/*
+	REST endpoints:
+	- GET /battles/
+	- GET /battles?compitition=123
+	- GET /battles/1234567
+	- GET /battles/1234567?compitition=123
+	- POST /battles/
+	- PUT /battles/1234567
+	- DELETE /battles/1234567
+	*/
+	"battles" : [
+		{
+			"_id": 1234567,
+			"competition": 123,
+			"round": 1,
+			"result": {
+				"opponent_1": {
+					"team_id": 12345, // Eventueel team naam gebruiken voor query optimalisatie.
+					"points": 3,
+					/* Van het onderstaande snap ik niet zo veel. */
+                    "survivalscore": 11750,
+                    "totalscore": 28763,
+                    "ramdamage": 5774,
+                    "bulletdamage": 7404,
+                    "survivalbonus": 1520,
+                    "firsts": 16,
+                    "bulletbonus": 1338,
+                    "rambonus": 978
+                },
+                "opponent_2": {
+					"team_id": 54321, // Eventueel team naam gebruiken voor query optimalisatie.
+					"points": 3,
+					/* Van het onderstaande snap ik niet zo veel. */
+                    "survivalscore": 11750,
+                    "totalscore": 28763,
+                    "ramdamage": 5774,
+                    "bulletdamage": 7404,
+                    "survivalbonus": 1520,
+                    "firsts": 16,
+                    "bulletbonus": 1338,
+                    "rambonus": 978
+                }
+            }
+		}	
+	]
+	/*
+	REST endpoints:
+	- GET /rankings/
+	- GET /rankings?compitition=123
+	*/
+}
