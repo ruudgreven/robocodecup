@@ -1,12 +1,14 @@
 {
 	/*
 	REST endpoints:
-	- GET /compititions/
+	- GET /compititions
 	- GET /compititions/123
 	- GET /compititions?featured=true
-	- POST /compititions/
+	- POST /compititions
 	- PUT /compitions/123
 	- DELETE /compitions/123
+	Rankings
+	- GET //compititions/123/rankings
 	*/
 	"competitions" : [
 		{
@@ -40,9 +42,9 @@
 	],
 	/*
 	REST endpoints:
-	- GET /teams/
+	- GET /teams
 	- GET /teams/12345
-	- POST /teams/
+	- POST /teams
 	- PUT /teams/12345
 	- DELETE /teams/12345
 	*/
@@ -68,11 +70,11 @@
 	},
 	/*
 	REST endpoints:
-	- GET /battles/
+	- GET /battles
 	- GET /battles?compitition=123
 	- GET /battles/1234567
 	- GET /battles/1234567?compitition=123
-	- POST /battles/
+	- POST /battles
 	- PUT /battles/1234567
 	- DELETE /battles/1234567
 	*/
@@ -111,9 +113,4 @@
             }
 		}	
 	]
-	/*
-	REST endpoints:
-	- GET /rankings/
-	- GET /rankings?compitition=123
-	*/
 }
