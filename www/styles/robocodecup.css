@@ -1,4 +1,25 @@
-.done-true {
-    text-decoration: line-through;
-    color: grey;
+.navbar-robocodecup {
+    background-color:#388E3C;
+    color:#ffffff;
+    border-radius:0;
+}
+
+.navbar-robocodecup .navbar-nav > li > a {
+    color:#fff;
+}
+.navbar-robocodecup .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color:transparent;
+}
+.navbar-robocodecup .navbar-nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none; background-color: #4CAF50;
+}
+.navbar-robocodecup .navbar-brand {
+    color:#eeeeee;
+}
+
+
+
+.table tbody>tr>td.vert-align{
+    vertical-align: middle;
 }
