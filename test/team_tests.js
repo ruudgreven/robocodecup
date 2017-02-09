@@ -3,8 +3,7 @@ var should = require('should');
 var mongoose = require('mongoose');
 var server = supertest.agent("http://localhost:3000");
 
-var Competition = require('../model/Competition');
-var Team = require('../model/Team');
+var testdata = require('./test_data.js');
 
 describe("team test",function () {
 
@@ -12,71 +11,21 @@ describe("team test",function () {
     // Populate database.
     before(function (done) {
         // Before test execution
-        console.log('Set up test environment.\n')
+        console.log('Set up test environment.\n');
 
         // Connect to the database
         mongoose.Promise = require('bluebird');
         mongoose.connect('mongodb://localhost:27017/robocodecup');
         var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'Connection error : '));
         db.once('open', function () {
             console.log('* Connected to test database.');
 
             // Add test data.
-            var competitions = [
-                new Competition({
-                    code: 'useb_2016',
-                    name: 'USEB 2016',
-                    description: 'The Ultimate SElection Battle 2016',
-                    official: true,
-                    featured: false
-                }),
-                new Competition({
-                    code: 'useb_2017',
-                    name: 'USEB 2017',
-                    description: 'The Ultimate SElection Battle 2017',
-                    official: true,
-                    featured: true
-                })
-            ];
-            Competition.collection.insert(competitions, function (err, compDocs) {
-                if (err) {
-                    console.log("Error inserting competitions.")
-                }
-                console.info('%d competitions were successfully stored.', compDocs.insertedCount);
-
-                var teams = [
-                    new Team({
-                        name: 'TimTeam',
-                        fullname: 'Timothy\'s Team',
-                        description: 'None needed',
-                        secret_key: '12345',
-                        competitions: ['useb_2017']
-                    }),
-                    new Team({
-                        name: 'RudeTeam',
-                        fullname: 'Ruud\'s Team',
-                        description: 'None needed',
-                        secret_key: '54321',
-                        competitions: ['useb_2017', 'useb_2016']
-                    }),
-                    new Team({
-                        name: 'OrphanTeam',
-                        fullname: 'Orphaned Team',
-                        description: 'None needed',
-                        secret_key: '123',
-                        competitions: []
-                    })
-                ];
-                Team.collection.insert(teams, function (err, teamDocs) {
-                    if (err) {
-                        console.log("Error inserting teams.")
-                    }
-                    console.info('%d teams were successfully stored.', teamDocs.insertedCount);
-
-                    // Close connection.
-                    mongoose.connection.close();
-                    done();
-                });
+            testdata.importData(function (err) {
+                // Close connection.
+                mongoose.connection.close();
+                done();
             });
         });
 
@@ -86,7 +35,7 @@ describe("team test",function () {
     // Drop database.
     after(function (done) {
         // After test execution
-        console.log('Tear down test environment\n')
+        console.log('Tear down test environment\n');
 
         // Connect to the database
         mongoose.Promise = require('bluebird');
