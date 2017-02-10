@@ -12,12 +12,14 @@ You can run the database in docker with the following commands:
 
 To generate api documentation please use the apidoc package.
 
-*Install*
+# Install
 ```npm install -g apidoc```
 
-*Run*
+# Run
 ```apidoc -i "resources" -o apidoc```
 
+# See
+Run the server and go to /apidoc to see the documentation.
 
 ## API
 ### GET /team.json
