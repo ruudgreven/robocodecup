@@ -9,27 +9,28 @@ npm install
 ## Development
 You can run the database in docker with the following commands:
 
-
 ```
 docker run --name robocodecup-mongo -p 27017:27017 -d mongo
 ```
 
+## API
+
 To generate api documentation please use the apidoc package.
 
-# Install
+### Install
 ```
 npm install -g apidoc
 ```
 
-# Run
+### Run
 ```
 apidoc -i "resources" -o apidoc
 ```
 
-# See
+### See
 Run the server and go to /apidoc to see the documentation.
 
-## API
+
 ### GET /team.json
 List all teams
 
