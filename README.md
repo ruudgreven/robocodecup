@@ -1,22 +1,30 @@
 # 
 
 ## Installation
-Clone the repo and run ```npm install```
+Clone the repo and run 
+```
+npm install
+```
 
 ## Development
 You can run the database in docker with the following commands:
 
 
-```docker run --name robocodecup-mongo -p 27017:27017 -d mongo```
-``````
+```
+docker run --name robocodecup-mongo -p 27017:27017 -d mongo
+```
 
 To generate api documentation please use the apidoc package.
 
 # Install
-```npm install -g apidoc```
+```
+npm install -g apidoc
+```
 
 # Run
-```apidoc -i "resources" -o apidoc```
+```
+apidoc -i "resources" -o apidoc
+```
 
 # See
 Run the server and go to /apidoc to see the documentation.
