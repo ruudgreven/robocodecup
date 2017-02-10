@@ -58,73 +58,72 @@ module.exports = {
                 }
                 console.info('%d teams were successfully stored.', teamDocs.insertedCount);
 
-                // Add battles
+                // Add battles.
                 var battles = [
                     new Battle({
                         competition: 'useb_2017',
                         round: 1,
-                        result: {
-                            opponent_1: {
+                        teams: [
+                            {
                                 team_name: 'TimTeam',
                                 points: 3
                             },
-                            opponent_2: {
+                            {
                                 team_name: 'RudeTeam',
                                 points: 0
                             }
-                        }
+                        ]
                     }),
                     new Battle({
                         competition: 'useb_2017',
                         round: 2,
-                        result: {
-                            opponent_1: {
+                        teams: [
+                            {
                                 team_name: 'TimTeam',
                                 points: 1
                             },
-                            opponent_2: {
+                            {
                                 team_name: 'RudeTeam',
                                 points: 1
                             }
-                        }
+                        ]
+                    }),
+                    new Battle({
+                        competition: 'useb_2017',
+                        round: 2,
+                        teams: [
+                            {
+                                team_name: 'TimTeam',
+                                points: 0
+                            },
+                            {
+                                team_name: 'RudeTeam',
+                                points: 3
+                            }
+                        ]
                     }),
                     new Battle({
                         competition: 'useb_2017',
                         round: 3,
-                        result: {
-                            opponent_1: {
-                                team_name: 'TimTeam',
-                                points: 0
-                            },
-                            opponent_2: {
-                                team_name: 'RudeTeam',
-                                points: 3
-                            }
-                        }
-                    }),
-                    new Battle({
-                        competition: 'useb_2017',
-                        round: 4,
-                        result: {
-                            opponent_1: {
+                        teams: [
+                            {
                                 team_name: 'TimTeam',
                                 points: 3
                             },
-                            opponent_2: {
+                            {
                                 team_name: 'RudeTeam',
                                 points: 0
                             }
-                        }
+                        ]
                     })
                 ];
-                Battle.collection.insert(battles, function (err, battleDocs) {
-                    if (err) {
-                        console.log("Error inserting battles.");
-                        callback(err);
-                    }
-                    console.info('%d battles were successfully stored.', battleDocs.insertedCount);
-
+                // Battle.collection.insert(battles, function (err, battleDocs) {
+                Battle.insertMany(battles).then(function (battleDocs) {
+                    console.info('%d battles were successfully stored.\n\n', battleDocs.length);
                     callback(null);
+                }).catch(function (err){
+                    console.log("Error inserting battles.");
+                    callback(err);
                 });
             });
         });

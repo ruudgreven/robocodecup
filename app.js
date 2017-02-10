@@ -4,7 +4,7 @@ var app = express()
 
 console.log("Starting Robocodecup webapi:");
 
-//Configure API resources
+// Configure API resources
 var ranking = require('./resources/ranking');
 app.use('/api/ranking', ranking);
 
@@ -17,7 +17,8 @@ app.use('/api/team', team);
 var battle = require('./resources/battle');
 app.use('/api/battle', battle);
 
-//Configure static folders
+
+// Configure static folders
 app.use('/web', express.static('www'));
 app.use('/files', express.static('files'));
 

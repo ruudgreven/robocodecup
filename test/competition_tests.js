@@ -11,7 +11,7 @@ describe("competition test",function () {
     // Populate database.
     before(function (done) {
         // Before test execution
-        console.log('Set up test environment.\n');
+        console.log('Set up test environment.');
 
         // Connect to the database
         mongoose.Promise = require('bluebird');
@@ -35,7 +35,7 @@ describe("competition test",function () {
     // Drop database.
     after(function (done) {
         // After test execution
-        console.log('Tear down test environment\n');
+        console.log('Tear down test environment.');
 
         // Connect to the database
         mongoose.Promise = require('bluebird');
