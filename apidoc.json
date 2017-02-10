@@ -1,0 +1,8 @@
+{
+  "name": "API documentation",
+  "version": "1.0.0",
+  "description": "Robocodecup API",
+  "template": {
+    "forceLanguage": "en"
+  }
+}

@@ -21,6 +21,7 @@ app.use('/api/battle', battle);
 // Configure static folders
 app.use('/web', express.static('www'));
 app.use('/files', express.static('files'));
+app.use('/apidoc', express.static('apidoc'));
 
 //Configure redirect to /web
 app.route('/').get(function(req,res) {
