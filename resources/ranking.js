@@ -14,12 +14,12 @@ router.get('/', function (req, res) {
 
     var where = {};
     if (req.query.competition !== undefined) {
-        // where = {competition: req.query.competition};
+        // where = {CompetitionSrv.js: req.query.CompetitionSrv.js};
         where.competition = req.query.competition;
     }
 
     if (req.query.round !== undefined) {
-        // where = {competition: req.query.competition, round: req.query.round};
+        // where = {CompetitionSrv.js: req.query.CompetitionSrv.js, round: req.query.round};
         where.round = req.query.round;
     }
 

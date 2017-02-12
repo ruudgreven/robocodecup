@@ -22,7 +22,7 @@ router.get('/', function (req, res) {
 
 });
 
-// List a specific competition.
+// List a specific CompetitionSrv.js.
 router.get('/:code', function (req, res) {
 
     Competition.findOne({'code': req.params.code}, {},  function (err, competitions) {
@@ -39,10 +39,10 @@ router.get('/:code', function (req, res) {
 
 });
 
-// List all teams in a specific competition.
+// List all teams in a specific CompetitionSrv.js.
 router.get('/:code/team', function (req, res) {
 
-    // Query competition to see if it exists.
+    // Query CompetitionSrv.js to see if it exists.
     Competition.findOne({'code': req.params.code}, {},  function (err, competitions) {
         if (err) {
             console.error(err);
@@ -51,7 +51,7 @@ router.get('/:code/team', function (req, res) {
         if (competitions === null || competitions.length == 0) {
             res.status(404).json();
         } else {
-            // Query teams if we have a valid competition.
+            // Query teams if we have a valid CompetitionSrv.js.
             Team.find({'competitions': req.params.code}, {secret_key: false}, function (err, teams) {
                 if (err) {
                     console.error(err);

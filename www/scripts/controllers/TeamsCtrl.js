@@ -9,6 +9,6 @@
  * List all teams
  */
 angular.module('robocodecupApp')
-    .controller('TeamsCtrl', function ($scope, $routeParams, $http, $log, config) {
+    .controller('TeamsCtrl', function ($scope, $routeParams, $http, $log) {
 
     });

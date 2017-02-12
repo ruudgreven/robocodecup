@@ -4,6 +4,9 @@
 # IntelliJ
 .idea
 
+# APIdocs
+apidoc
+
 # Logs
 logs
 *.log

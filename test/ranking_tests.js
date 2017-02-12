@@ -69,7 +69,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 3 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2017")
+        server.get("/api/ranking?CompetitionSrv.js=useb_2017")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -85,7 +85,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 0 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2016")
+        server.get("/api/ranking?CompetitionSrv.js=useb_2016")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -101,7 +101,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 0 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2016&round=1")
+        server.get("/api/ranking?CompetitionSrv.js=useb_2016&round=1")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -133,7 +133,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2017&round=1")
+        server.get("/api/ranking?CompetitionSrv.js=useb_2017&round=1")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -157,7 +157,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2017&round=2")
+        server.get("/api/ranking?CompetitionSrv.js=useb_2017&round=2")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -181,7 +181,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2017&round=3")
+        server.get("/api/ranking?CompetitionSrv.js=useb_2017&round=3")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)

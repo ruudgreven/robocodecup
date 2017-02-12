@@ -9,6 +9,6 @@
  * Controller of the teams
  */
 angular.module('robocodecupApp')
-    .controller('TeamCtrl', function ($scope, $routeParams, $http, $log, config) {
+    .controller('TeamCtrl', function ($scope, $routeParams, $http, $log) {
         $scope.teamid = $routeParams.teamid;
     });

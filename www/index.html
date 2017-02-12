@@ -14,13 +14,13 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" ng-controller="CompetitionsCtrl">
         <div class="col-md-2">
             <img src="images/useblogo.png" class="img-responsive"/>
         </div>
         <div class="col-md-6">
-            <h1>USEB 2017</h1>
-            <p>The one and only official SElection Battle 2017!</p>
+            <h1>{{featuredcompetition.name}}</h1>
+            <p>{{featuredcompetition.description}}</p>
         </div>
         <div class="col-md-4">
             <!-- Add sponsor images -->
@@ -62,9 +62,13 @@
 
     <!-- App controllers -->
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/rankings.js"></script>
-    <script src="scripts/controllers/teams.js"></script>
-    <script src="scripts/controllers/team.js"></script>
-    <script src="scripts/controllers/upload.js"></script>
+
+    <script src="scripts/services/CompetitionSrv.js"></script>
+
+    <script src="scripts/controllers/CompetitionsCtrl.js"></script>
+    <script src="scripts/controllers/RankingsCtrl.js"></script>
+    <script src="scripts/controllers/TeamsCtrl.js"></script>
+    <script src="scripts/controllers/TeamCtrl.js"></script>
+    <script src="scripts/controllers/UploadCtrl.js"></script>
 </body>
 </html>

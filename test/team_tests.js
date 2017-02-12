@@ -119,8 +119,8 @@ describe("team test",function () {
             });
     });
 
-    it('should return a list of 2 teams in the USEB 2017 competition',function (done) {
-        server.get("/api/competition/useb_2017/team/")
+    it('should return a list of 2 teams in the USEB 2017 CompetitionSrv.js',function (done) {
+        server.get("/api/CompetitionSrv.js/useb_2017/team/")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
