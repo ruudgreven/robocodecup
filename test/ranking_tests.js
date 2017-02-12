@@ -85,7 +85,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 0 rankings',function (done) {
-        server.get("/api/ranking?CompetitionSrv.js=useb_2016")
+        server.get("/api/ranking?competition=useb_2016")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -101,7 +101,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 0 rankings',function (done) {
-        server.get("/api/ranking?CompetitionSrv.js=useb_2016&round=1")
+        server.get("/api/ranking?competition=useb_2016&round=1")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
