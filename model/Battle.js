@@ -19,6 +19,8 @@ var battleSchema = new Schema({
             bulletdamage: {type: Number},
             survivalbonus: {type: Number},
             firsts: {type: Number},
+            seconds: {type: Number},
+            thirds: {type: Number},
             bulletbonus: {type: Number},
             rambonus: {type: Number}
         },
@@ -34,6 +36,8 @@ var battleSchema = new Schema({
             bulletdamage: {type: Number},
             survivalbonus: {type: Number},
             firsts: {type: Number},
+            seconds: {type: Number},
+            thirds: {type: Number},
             bulletbonus: {type: Number},
             rambonus: {type: Number}
         }]
