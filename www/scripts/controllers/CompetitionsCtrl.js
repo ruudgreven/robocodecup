@@ -30,7 +30,7 @@ angular.module('robocodecupApp')
             }, function error(response) {
                 $log.error('There was an error: ' + response);
             });
-        }
+        };
 
         $scope.$on('$routeChangeSuccess', function() {
             init();

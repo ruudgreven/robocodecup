@@ -1,5 +1,7 @@
 var express = require('express')
 var mongoose = require('mongoose');
+var passport	= require('passport');
+
 var app = express()
 
 console.log("Starting Robocodecup webapi:");
@@ -17,6 +19,8 @@ app.use('/api/team', team);
 var battle = require('./resources/battle');
 app.use('/api/battle', battle);
 
+var help = require('./resources/help');
+app.use('/api', help);
 
 // Configure static folders
 app.use('/web', express.static('www'));

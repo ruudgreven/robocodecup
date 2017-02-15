@@ -42,7 +42,9 @@ router.get('/', function (req, res) {
 // TODO: add some paging here because the list of battles can potentialy be very large.
 router.get('/:team_name', function (req, res) {
 
-    Battle.find({}, {}, function (err, battles) {
+    var where = {teams: {$elemMatch: {team_name: req.params.team_name}}};
+
+    Battle.find(where, {}, function (err, battles) {
         if (err) {
             console.error(err);
             res.status(500).json({error: "true", message: "Cannot find battles"});

@@ -44,6 +44,13 @@ module.exports = {
                     competitions: ['useb_2017', 'useb_2016']
                 }),
                 new Team({
+                    name: 'CrazyTeam',
+                    fullname: 'Crazy\'s Team',
+                    description: 'None needed',
+                    secret_key: '54321',
+                    competitions: ['useb_2017']
+                }),
+                new Team({
                     name: 'OrphanTeam',
                     fullname: 'Orphaned Team',
                     description: 'None needed',
@@ -112,6 +119,34 @@ module.exports = {
                             },
                             {
                                 team_name: 'RudeTeam',
+                                points: 0
+                            }
+                        ]
+                    }),
+                    new Battle({
+                        competition: 'useb_2017',
+                        round: 3,
+                        teams: [
+                            {
+                                team_name: 'TimTeam',
+                                points: 3
+                            },
+                            {
+                                team_name: 'CrazyTeam',
+                                points: 0
+                            }
+                        ]
+                    }),
+                    new Battle({
+                        competition: 'useb_2017',
+                        round: 3,
+                        teams: [
+                            {
+                                team_name: 'RudeTeam',
+                                points: 3
+                            },
+                            {
+                                team_name: 'CrazyTeam',
                                 points: 0
                             }
                         ]

@@ -194,12 +194,13 @@ describe("ranking test",function () {
                 ranking.length.should.be.exactly(1);
 
                 var teams = ranking[0].teams;
-                teams.length.should.be.exactly(2);
+                teams.length.should.be.exactly(3);
                 teams[0].team_name.should.be.exactly("TimTeam");
-                teams[0].points.should.be.exactly(3);
+                teams[0].points.should.be.exactly(6);
                 teams[1].team_name.should.be.exactly("RudeTeam");
-                teams[1].points.should.be.exactly(0);
-
+                teams[1].points.should.be.exactly(3);
+                teams[2].team_name.should.be.exactly("CrazyTeam");
+                teams[2].points.should.be.exactly(0);
                 done();
             });
     });

@@ -52,7 +52,7 @@ describe("battle test",function () {
     });
 
     // Actual tests
-    it('should return a list of 4 battles',function (done) {
+    it('should return a list of 6 battles',function (done) {
         server.get("/api/battle/")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
@@ -62,8 +62,24 @@ describe("battle test",function () {
                     return done(err);
                 }
 
-                var numCompetitions = res.body.length;
-                numCompetitions.should.be.exactly(4);
+                var numBattles = res.body.length;
+                numBattles.should.be.exactly(6);
+                done();
+            });
+    });
+
+    it('should return a list of 2 battles',function (done) {
+        server.get("/api/battle/CrazyTeam")
+            .set('Accept', 'application/json')
+            .expect("Content-type", /json/)
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                    return done(err);
+                }
+
+                var numBattles = res.body.length;
+                numBattles.should.be.exactly(2);
                 done();
             });
     });

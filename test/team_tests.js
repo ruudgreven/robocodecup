@@ -53,7 +53,7 @@ describe("team test",function () {
     });
 
     // Actual tests
-    it('should return a list of 3 teams',function (done) {
+    it('should return a list of 4 teams',function (done) {
         server.get("/api/team/")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
@@ -64,7 +64,7 @@ describe("team test",function () {
                 }
 
                 var numCompetitions = res.body.length;
-                numCompetitions.should.be.exactly(3);
+                numCompetitions.should.be.exactly(4);
                 done();
             });
     });
@@ -119,7 +119,7 @@ describe("team test",function () {
             });
     });
 
-    it('should return a list of 2 teams in the USEB 2017 CompetitionSrv.js',function (done) {
+    it('should return a list of 3 teams in the USEB 2017 CompetitionSrv.js',function (done) {
         server.get("/api/competition/useb_2017/team/")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
@@ -130,7 +130,7 @@ describe("team test",function () {
                 }
 
                 var numCompetitions = res.body.length;
-                numCompetitions.should.be.exactly(2);
+                numCompetitions.should.be.exactly(3);
                 done();
             });
     });
