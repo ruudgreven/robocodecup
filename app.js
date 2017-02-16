@@ -33,6 +33,7 @@ app.use('/api/authenticate', authn);
 var help = require('./resources/help');
 app.use('/api', help);
 
+
 // Configure static folders
 app.use('/web', express.static('www'));
 app.use('/files', express.static('files'));

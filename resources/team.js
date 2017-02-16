@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
+var formidable = require('formidable');
+var path = require('path');
+var fs = require('fs');
 
 var Team = require('../model/Team');
 
@@ -35,19 +36,55 @@ router.get('/:name', function (req, res) {
 
 });
 
-
 // Handle an upload for a team
-router.post('/upload', upload.single('file'), function (req, res, next) {
-    // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
-    console.log("Lala: " + req.body);
+router.post('/upload', function (req, res) {
+    uploadFile(req, res);
 });
 
-// List details for one team
-router.get('/:id', function (req, res) {
-    res.send('About ' + req.params.id);
-});
+function uploadFile(req, res) {
+    var fileName;
 
+    // Create an form object
+    var form = new formidable.IncomingForm();
 
+    form.multiples = true;
 
-module.exports = router
+    // Store all uploads in the /uploads directory
+    form.uploadDir = path.join(__dirname, '../uploads/');
+
+    Team
+        .find({secret_key : req.header('X-Authentication')})
+        .then(function(docs) {
+            if (docs.length == 1) {
+
+                // Set folder name
+                var folderName = docs[0].name;
+
+                // When file has been uploaded successfully,
+                // rename it to it's orignal name.
+                form.on('fileBegin', function (name, file){
+                    file.path = path.join(__dirname + '/../uploads/' + folderName + '-' + file.name);
+                });
+
+                // Return a 500 in case of an error
+                form.on('error', function(err) {
+                    res.status(500).json({'error':true, 'message': err});
+                });
+
+                // Send a response to the client when file upload is finished.
+                form.on('end', function() {
+                    res.status(201).json({'error':false, 'message':'Upload succesfull.'})
+                });
+
+                // Parse the incoming request.
+                form.parse(req);
+            } else {
+                res.status(500).json({'error':true, 'message': err});
+            }
+        })
+        .catch(function(err) {
+            res.status(500).json({'error':true, 'message': 'Error uploading file.'});
+        });
+}
+
+module.exports = router;

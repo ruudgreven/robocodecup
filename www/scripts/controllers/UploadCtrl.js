@@ -21,7 +21,7 @@ angular.module('robocodecupApp')
 
             $http.post('../api/team/upload', fd, {
                 transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
+                headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
             }).then(function(){
                 console.log("File uploaded!");
             },function(){
