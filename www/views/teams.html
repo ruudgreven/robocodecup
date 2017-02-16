@@ -1,1 +1,17 @@
-List all teams!
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th class="col-md-1">#</th>
+        <th class="col-md-6">Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="team in teams">
+        <td class="vert-align">{{$index +1}}</td>
+        <td class="vert-align">
+            <img src="images/{{team.logo}}" style="height: 32px;" alt="Teamlogo" class="img-circle">
+            {{team.fullname}}
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -17,7 +17,7 @@ angular.module('robocodecupApp')
             //Retrieving a list of competitions
             $http({
                 method: 'GET',
-                url: '/api/competition'
+                url: '/api/competition?featured=true'
             }).then(function success(response) {
                 $scope.competitions = response.data;
                 angular.forEach($scope.competitions, function(competition, key) {

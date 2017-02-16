@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="ranking in rankings">
-            <td class="vert-align">{{ranking.rank}}</td>
+            <td class="vert-align">{{$index +1}}</td>
             <td class="vert-align">
                 <img src="images/{{ranking.icon}}" style="height: 32px;" alt="Teamlogo Ruud's team" class="img-circle">
                 {{ranking.team_name}}

@@ -15,6 +15,7 @@ var updateRanking = function (competition_id, round, callback) {
             {
                 $group: {
                     _id: "$teams.team_name",
+                    played: {$sum: 1},
                     points: {$sum: "$teams.points"}
                 }
             },
@@ -26,6 +27,10 @@ var updateRanking = function (competition_id, round, callback) {
                 // We have a sorted list of teams with total points here.
                 // Let's replace the _id element key with team_name (conform schema).
                 ranking = JSON.parse(JSON.stringify(ranking).split('"_id":').join('"team_name":'));
+                // HACK: For now just add the default logo to every team.
+                for (var i = 0, len = ranking.length; i < len; i++) {
+                    ranking[i].icon = "teamlogo_default.png";
+                }
 
                 // Upsert the ranking.
                 var query = {'code': competition_id, 'round': round};

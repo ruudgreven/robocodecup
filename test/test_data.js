@@ -32,6 +32,7 @@ module.exports = {
                 new Team({
                     name: 'TimTeam',
                     fullname: 'Timothy\'s Team',
+                    logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '12345',
                     competitions: ['useb_2017']
@@ -39,6 +40,7 @@ module.exports = {
                 new Team({
                     name: 'RudeTeam',
                     fullname: 'Ruud\'s Team',
+                    logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '54321',
                     competitions: ['useb_2017', 'useb_2016']
@@ -46,6 +48,7 @@ module.exports = {
                 new Team({
                     name: 'CrazyTeam',
                     fullname: 'Crazy\'s Team',
+                    logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '54321',
                     competitions: ['useb_2017']
@@ -53,6 +56,7 @@ module.exports = {
                 new Team({
                     name: 'OrphanTeam',
                     fullname: 'Orphaned Team',
+                    logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '123',
                     competitions: []
