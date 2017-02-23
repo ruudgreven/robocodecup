@@ -6,7 +6,9 @@ var rankingSchema = new Schema({
     round: {type: Number, required: true},
     teams: [{
         team_name: {type: String, required: true, match: /\w/},
-        points: {type: Number, required: true}
+        points: {type: Number, required: true},
+        played: {type: Number, required: true},
+        icon: {type: String}
     }]
 }, {strict: false});
 

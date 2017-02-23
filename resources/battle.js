@@ -25,25 +25,24 @@ var Battle = require('../model/Battle');
  * @apiErrorExample {json} Find error
  *    HTTP/1.1 500 Internal Server Error
  */
-router.get('/', function (req, res) {
-
-    Battle.find(function (err, battles) {
-        if (err) {
-            console.error(err);
-            res.status(500).json({error: "true", message: "Cannot find battles"});
-        }
-        res.status(200).json(battles);
-    });
-
-});
-
-
+// router.get('/', function (req, res) {
+//
+//     Battle.find(function (err, battles) {
+//         if (err) {
+//             console.error(err);
+//             res.status(500).json({error: "true", message: "Cannot find battles"});
+//         }
+//         res.status(200).json(battles);
+//     });
+//
+// });
 // List all battles for a specific team.
 // TODO: add some paging here because the list of battles can potentialy be very large.
-router.get('/:team_name', function (req, res) {
-
-    var where = {teams: {$elemMatch: {team_name: req.params.team_name}}};
-
+router.get('/', function (req, res) {
+    var where = {};
+    if (req.query.team_name !== undefined) {
+        where = {teams: {$elemMatch: {team_name: req.query.team_name}}};
+    }
     Battle.find(where, {}, function (err, battles) {
         if (err) {
             console.error(err);
@@ -54,5 +53,15 @@ router.get('/:team_name', function (req, res) {
 
 });
 
+// Get a specific battle
+router.get('/:id', function (req, res) {
+    Battle.find({ '_id': req.params.id }, {}, function (err, battles) {
+        if (err) {
+            console.error(err);
+            res.status(500).json({error: "true", message: "Cannot find battle"});
+        }
+        res.status(200).json(battles);
+    });
+});
 
 module.exports = router;

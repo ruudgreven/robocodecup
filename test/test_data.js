@@ -17,6 +17,8 @@ module.exports = {
                 code: 'useb_2017',
                 name: 'USEB 2017',
                 description: 'The Ultimate SElection Battle 2017',
+                current_round: 3,
+                rounds: [3,2,1],
                 official: true,
                 featured: true
             })

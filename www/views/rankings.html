@@ -1,3 +1,10 @@
+<div class="current_competition" ng-controller="CompetitionsCtrl">
+    Current competition: <em>{{currentcompetition.name}}</em> - Current round:
+    <select name="repeatSelect" id="repeatSelect" ng-model="currentround" ng-change="update(id);">
+        <option ng-repeat="round in currentcompetition.rounds" value="{{round}}">{{round}}</option>
+    </select>
+</div>
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -15,7 +22,7 @@
             <td class="vert-align">{{$index +1}}</td>
             <td class="vert-align">
                 <img src="images/{{ranking.icon}}" style="height: 32px;" alt="Teamlogo Ruud's team" class="img-circle">
-                {{ranking.team_name}}
+                <a href="#!/team/{{ranking.team_name}}">{{ranking.team_name}}</a>
             </td>
             <td class="active vert-align">{{ranking.played}}</td>
             <td class="success vert-align">{{ranking.won}}</td>

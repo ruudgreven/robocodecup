@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 
 var Team = require('../model/Team');
+var TeamUploadValidator = require('./Util/teamUploadValidator');
 
 // List all teams
 router.get('/', function (req, res) {
@@ -73,6 +74,7 @@ function uploadFile(req, res) {
 
                 // Send a response to the client when file upload is finished.
                 form.on('end', function() {
+                    TeamUploadValidator.extractTeams()
                     res.status(201).json({'error':false, 'message':'Upload succesfull.'})
                 });
 

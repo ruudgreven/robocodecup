@@ -1,1 +1,66 @@
-Team page fromp {{teamid}}
+
+<h3>{{team.fullname}}</h3>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+            <th class="col-md-2">Property</th>
+            <th class="col-md-6">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Name: </td>
+            <td>{{team.name}}</td>
+        </tr>
+        <tr>
+            <td>Full name: </td>
+            <td>{{team.fullname}}</td>
+        </tr>
+        <tr>
+            <td>Description: </td>
+            <td>{{team.description}}</td>
+        </tr>
+        <tr>
+            <td>Participating in competitions: </td>
+            <td>{{team.competitions}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Battles</h3>
+
+<div class="current_competition" ng-controller="CompetitionsCtrl">
+    Show battles for round
+    <select name="repeatSelect" id="repeatSelect" ng-model="currentround" ng-change="update(id);">
+        <option ng-repeat="round in currentcompetition.rounds" value="{{round}}">{{round}}</option>
+    </select>
+    in competition: <em>{{currentcompetition.name}}</em>
+</div>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th class="col-md-1">Battle #</th>
+        <th class="col-md-1">Round</th>
+        <th class="col-md-3">Team 1</th>
+        <th class="col-md-3">Team 2</th>
+        <th class="col-md-1">Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="battle in battles" ng-click="showDetails(battle)">
+        <td class="vert-align">{{$index +1}}</td>
+        <td class="vert-align">Round {{battle.round}}</td>
+        <td class="vert-align">
+            <a href="#!/team/{{battle.teams[0].team_name}}">{{battle.teams[0].team_name}}</a>
+        </td>
+        <td class="vert-align">
+            <a href="#!/team/{{battle.teams[1].team_name}}">{{battle.teams[1].team_name}}</a>
+        </td>
+        <td class="vert-align">
+            {{battle.teams[0].points}} - {{battle.teams[1].points}}
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -15,9 +15,15 @@ angular.module('robocodecupApp').service('CompetitionSrv', function($rootScope, 
 
     this.setCurrentCompetition = function(nwCurrentCompetition) {
         this.currentcompetition = nwCurrentCompetition;
-        this.currentround = 1;
+        this.currentround = nwCurrentCompetition.current_round;
 
         $log.info('Current competition set to ' + this.currentcompetition.code + ' and round ' + this.currentround);
         $rootScope.$broadcast('competition.update');
     };
+
+    this.updateRound = function(current_round) {
+        this.currentround = current_round;
+        $rootScope.$broadcast('competition.update');
+    };
+
 });
