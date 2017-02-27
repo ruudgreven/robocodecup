@@ -5,7 +5,7 @@ var path = require('path');
 var fs = require('fs');
 
 var Team = require('../model/Team');
-var TeamUploadValidator = require('./Util/teamUploadValidator');
+var TeamUploadValidator = require('./util/teamUploadValidator');
 
 // List all teams
 router.get('/', function (req, res) {
