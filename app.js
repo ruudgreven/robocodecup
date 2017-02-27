@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var bodyParser = require('body-parser');
 
+var Competition = require('./model/Competition');
 var User = require('./model/User');
 var config = require('./config/config');
 
@@ -60,6 +61,18 @@ db.once('open', function () {
         adminUser.save(function (err, doc) {
             if(err) {
                 console.log('* Error creating admin user.');
+            }
+        });
+        var competition = new Competition({
+            code: 'useb_2017',
+            name: 'USEB 2017',
+            description: 'The Ultimate SElection Battle 2017',
+            official: true,
+            featured: true
+        });
+        competition.save(function (err, doc) {
+            if(err) {
+                console.log('* Error creating default competition.');
             }
         });
     });

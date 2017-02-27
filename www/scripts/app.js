@@ -37,8 +37,12 @@ angular
                 templateUrl: 'views/admin/index.html',
                 controller: "AdminCtrl"
             })
-            .when('/admin/upload', {
+            .when('/admin/upload_battles', {
                 templateUrl: 'views/admin/upload_battles.html',
+                controller: "AdminCtrl"
+            })
+            .when('/admin/upload_teams', {
+                templateUrl: 'views/admin/upload_teams.html',
                 controller: "AdminCtrl"
             })
             .otherwise({
