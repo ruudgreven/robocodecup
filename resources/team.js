@@ -74,7 +74,7 @@ function uploadFile(req, res) {
 
                 // Send a response to the client when file upload is finished.
                 form.on('end', function() {
-                    TeamUploadValidator.extractTeams()
+                    // TeamUploadValidator.extractTeams();
                     res.status(201).json({'error':false, 'message':'Upload succesfull.'})
                 });
 

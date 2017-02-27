@@ -4,8 +4,9 @@ var mongoose = require('mongoose');
 var server = supertest.agent("http://localhost:3000");
 
 var testdata = require('./test_data.js');
+var config = require('../config/config');
 
-describe("battle test",function () {
+describe("aithentication.js test",function () {
 
     // Setup test environment.
     // Populate database.
@@ -28,6 +29,7 @@ describe("battle test",function () {
                 done();
             });
         });
+
     });
 
     // Teardown test environment.
@@ -51,36 +53,43 @@ describe("battle test",function () {
         });
     });
 
-    // Actual tests
-    it('should return a list of 6 battles',function (done) {
-        server.get("/api/battle/")
+    // Actual unit tests.
+    it('should return token for correct credentials',function (done) {
+        var user = {username: config.admin.name, password: config.admin.password};
+
+        server.post("/api/authenticate")
             .set('Accept', 'application/json')
+            .send(user)
             .expect("Content-type", /json/)
             .expect(200)
             .end(function(err, res) {
                 if (err) {
                     return done(err);
                 }
-
-                var numBattles = res.body.length;
-                numBattles.should.be.exactly(6);
+                res.body.success.should.be.exactly(true);
+                should.exist(res.body.token);
                 done();
             });
     });
 
-    it('should return a list of 2 battles',function (done) {
-        server.get("/api/battle?team_name=CrazyTeam")
+    // Actual unit tests.
+    it('should return token for correct credentials',function (done) {
+        var user = {username: "admin", password: "123"};
+
+        server.post("/api/authenticate")
             .set('Accept', 'application/json')
+            .send(user)
             .expect("Content-type", /json/)
             .expect(200)
             .end(function(err, res) {
                 if (err) {
                     return done(err);
                 }
-
-                var numBattles = res.body.length;
-                numBattles.should.be.exactly(2);
+                res.body.success.should.be.exactly(false);
+                should.not.exist(res.body.token);
                 done();
             });
     });
+
+
 });

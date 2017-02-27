@@ -4,6 +4,8 @@ module.exports = {
         var Competition = require('../model/Competition');
         var Team = require('../model/Team');
         var Battle = require('../model/Battle');
+        var User = require('../model/User');
+        var config = require('../config/config');
 
         var competitions = [
             new Competition({
@@ -158,14 +160,32 @@ module.exports = {
                         ]
                     })
                 ];
-                // Battle.collection.insert(battles, function (err, battleDocs) {
-                Battle.insertMany(battles).then(function (battleDocs) {
+                // Battle.insertMany(battles).then(function (battleDocs) {
+                Battle.insertMany(battles, function (err, battleDocs) {
+                    if(err) {
+                        console.log("Error inserting battles.");
+                        callback(err);
+                    }
                     console.info('%d battles were successfully stored.\n\n', battleDocs.length);
-                    callback(null);
-                }).catch(function (err){
-                    console.log("Error inserting battles.");
-                    callback(err);
+
+                    var user = new User({
+                        name: config.admin.name,
+                        password: config.admin.password
+                    });
+
+                    user.save(function (err, doc) {
+                        if(err) {
+                            console.log('* Error creating admin user.');
+                            callback(err);
+                        } else {
+                            callback(null);
+                        }
+                    });
                 });
+                // }).catch(function (err){
+                //     console.log("Error inserting battles.");
+                //     callback(err);
+                // });
             });
         });
     }

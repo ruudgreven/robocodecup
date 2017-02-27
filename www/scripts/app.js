@@ -33,6 +33,14 @@ angular
             .when('/about', {
                 templateUrl: 'views/about.html'
             })
+            .when('/admin', {
+                templateUrl: 'views/admin/index.html',
+                controller: "AdminCtrl"
+            })
+            .when('/admin/upload', {
+                templateUrl: 'views/admin/upload_battles.html',
+                controller: "AdminCtrl"
+            })
             .otherwise({
                 redirectTo: '/'
             });

@@ -9,7 +9,7 @@ var User = require('../model/User');
 router.post('/', function (req, res) {
 
     User.findOne({
-        name: req.body.name
+        name: req.body.username
     }, function(err, user) {
         if (err) throw err;
 
