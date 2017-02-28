@@ -1,4 +1,4 @@
-var jwt = require('jwt-simple');
+var jwt = require('jsonwebtoken');
 var express = require('express');
 var router = express.Router();
 
@@ -19,10 +19,14 @@ router.post('/', function (req, res) {
             // check if password matches
             user.comparePassword(req.body.password, function (err, isMatch) {
                 if (isMatch && !err) {
-                    // if user is found and password is right create a token
-                    var token = jwt.encode(user, config.secret);
-                    // return the information including token as JSON
-                    res.json({success: true, token: 'JWT ' + token});
+                    // Found user let's create a token.
+                    var token = jwt.sign({username: user.username },
+                        config.secret, {
+                            expiresIn: 1440
+                        });
+
+                    // Return token
+                    res.json({success: true, token: token, expiresIn: 1440});
                 } else {
                     res.send({success: false, msg: 'Authentication failed. Wrong password.'});
                 }

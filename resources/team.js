@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var randomstring = require("randomstring");
+var randomstring = require('randomstring');
 var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
@@ -89,6 +89,26 @@ function uploadJar(req, res) {
             res.status(500).json({'error':true, 'message': 'Error uploading file.'});
         });
 }
+
+//--------------------------------------------------------------------------------------------------------------------
+
+var authz = require('./api_authorization');
+router.use(authz);
+
+//--------------------------------------------------------------------------------------------------------------------
+
+// List all teams
+router.get('/show/all', function (req, res) {
+
+    Team.find({}, {}, function (err, teams) {
+        if (err) {
+            console.error(err);
+            res.status(500).json({error: "true", message: "Cannot find teams"});
+        }
+        res.status(200).json(teams);
+    });
+
+});
 
 
 // Handle an upload for a team

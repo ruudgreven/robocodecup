@@ -22,9 +22,23 @@
             $location.path('/');
         };
 
+        var retrieveTeams = function() {
+            var secretkey = LoginSrv.getLoginKey();
+
+            $http({
+                method: 'GET',
+                url: '/api/team/show/all',
+                headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
+            }).then(function success(response) {
+                $scope.teams = response.data;
+            }, function error(response) {
+                console.log('There was an error: ' + response.statusText + ': ' + response.data);
+            });
+        };
+        retrieveTeams();
+
         $scope.sendFile = function() {
-            // var secretkey = $scope.secretkey.toUpperCase();
-            var secretkey = "robocup-admin";
+            var secretkey = LoginSrv.getLoginKey();
 
             var fd = new FormData();
             fd.append('file', $scope.battlefile);
@@ -41,8 +55,7 @@
         };
 
         $scope.uploadTeams = function() {
-            // var secretkey = $scope.secretkey.toUpperCase();
-            var secretkey = "robocup-admin";
+            var secretkey = LoginSrv.getLoginKey();
 
             var fd = new FormData();
             fd.append('file', $scope.teamfile);

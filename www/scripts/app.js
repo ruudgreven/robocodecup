@@ -46,6 +46,10 @@ angular
                 templateUrl: 'views/admin/upload_battles.html',
                 controller: "AdminCtrl"
             })
+            .when('/admin/teams', {
+                templateUrl: 'views/admin/teams.html',
+                controller: "AdminCtrl"
+            })
             .when('/admin/upload_teams', {
                 templateUrl: 'views/admin/upload_teams.html',
                 controller: "AdminCtrl"
