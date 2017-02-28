@@ -1,4 +1,30 @@
-<form>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="sidebar-nav">
+            <div class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".sidebar-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <span class="visible-xs navbar-brand">Sidebar menu</span>
+                </div>
+                <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Competitions</a></li>
+                        <li><a href="#!/admin/upload_battles">Teams</a></li>
+                        <li><a href="#!/admin/upload_teams">Battles</a></li>
+                        <li><a href="#">Profile</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <form>
     <div class="form-group">
         <label for="competition">Upload for competition</label>
         <input type="text" ng-model='competition' id="competition" class="form-control" maxlength="25" placeholder="The competition for which the results should be uploaded.">
@@ -15,3 +41,5 @@
 
     <button class="btn btn-default" ng-click="sendFile()">Submit</button>
 </form>
+    </div>
+</div>
