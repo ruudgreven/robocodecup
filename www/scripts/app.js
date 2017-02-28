@@ -33,6 +33,10 @@ angular
             .when('/about', {
                 templateUrl: 'views/about.html'
             })
+            .when('/login', {
+                templateUrl: 'views/admin/login.html',
+                controller: "LoginCtrl"
+            })
             .when('/admin', {
                 templateUrl: 'views/admin/index.html',
                 controller: "AdminCtrl"

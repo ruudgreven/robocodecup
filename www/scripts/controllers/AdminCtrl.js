@@ -7,40 +7,6 @@
 
         $scope.competition = "useb_2017";
 
-        var vm = this;
-        vm.login = $scope.login;
-
-        initController();
-
-        function initController() {
-            // reset login status
-        }
-
-        $scope.login = function() {
-            var username = $scope.username;
-            var password = $scope.password;
-
-            $http({
-                method: 'POST',
-                url: '/api/authenticate',
-                data: {username: username, password: password},
-                headers: {'Content-Type': 'application/json'}
-            }).then(function success(response) {
-                if (response.data.success) {
-                    console.log("Authenticated!");
-                } else {
-                    console.log("Not authenticated!");
-                }
-
-            },function error(){
-                console.log("Error authenticating");
-            });
-        };
-
-        $scope.logout = function() {
-
-        };
-
         $scope.sendFile = function() {
             // var secretkey = $scope.secretkey.toUpperCase();
             var secretkey = "robocup-admin";
