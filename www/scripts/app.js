@@ -10,7 +10,8 @@
  */
 angular
     .module('robocodecupApp', [
-        'ngRoute'
+        'ngRoute',
+        'LocalStorageModule'
     ])
     .config(function ($routeProvider) {
         $routeProvider
@@ -52,6 +53,8 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
+    }).config(function (localStorageServiceProvider) {
+        localStorageServiceProvider.setPrefix('robocodecup');
     }).constant('config', {
 
     }).directive('fileModel', ['$parse', function ($parse) {

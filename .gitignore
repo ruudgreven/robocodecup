@@ -7,6 +7,9 @@
 # APIdocs
 apidoc
 
+# Uploads
+uploads
+
 # Logs
 logs
 *.log

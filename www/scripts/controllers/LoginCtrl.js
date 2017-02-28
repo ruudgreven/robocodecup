@@ -3,18 +3,16 @@
     'use strict';
 
 
-    angular.module('robocodecupApp').controller('LoginCtrl', function ($scope, $http, $log) {
-
+    angular.module('robocodecupApp').controller('LoginCtrl', function ($scope, $http, $log, $location, LoginSrv) {
+        //TODO: FIND A BETTER WAY TO DO INITIALIZATION
         $scope.competition = "useb_2017";
 
-        var vm = this;
-        vm.login = $scope.login;
-
-        initController();
-
-        function initController() {
-            // reset login status
-        }
+        var init =  function() {
+            if (LoginSrv.isLoggedIn()) {
+                $location.path('/admin');
+            }
+        };
+        init();
 
         $scope.login = function() {
             var username = $scope.username;
@@ -29,6 +27,9 @@
                 if (response.data.success) {
                     console.log("Authenticated!");
                     $scope.error = undefined;
+
+                    LoginSrv.setCredentials(response.data.token, $scope.username);
+                    $location.path('/admin');
                 } else {
                     console.log("Not authenticated!");
                     $scope.error = {details: "Invalid credentials."};

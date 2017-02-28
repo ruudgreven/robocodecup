@@ -3,9 +3,24 @@
     'use strict';
 
 
-    angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http, $log) {
-
+    angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http, $location, LoginSrv) {
+        //TODO: FIND A BETTER WAY TO DO INITIALIZATION
         $scope.competition = "useb_2017";
+
+        /**
+         * Initializes this controller
+         */
+        var init = function() {
+            if (!LoginSrv.isLoggedIn()) {
+                $location.path('/login');
+            }
+        };
+        init();
+
+        $scope.logout = function() {
+            LoginSrv.clearCredentials();
+            $location.path('/');
+        };
 
         $scope.sendFile = function() {
             // var secretkey = $scope.secretkey.toUpperCase();
@@ -44,6 +59,7 @@
             });
             console.log($scope.teamfile);
         }
+
 
     });
 })();
