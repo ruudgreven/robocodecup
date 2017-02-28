@@ -12,8 +12,14 @@
 angular.module('robocodecupApp').service('LoginSrv', function($log, localStorageService) {
     //TODO: FIND A BETTER WAY TO DO INITIALIZATION
     var login = localStorageService.get('login');
-    this.loginkey = login.key;
-    this.loginusername = login.username;
+    if (login!=null && login!=undefined) {
+        this.loginkey = login.key;
+        this.loginusername = login.username;
+    } else {
+        this.loginkey = undefined;
+        this.loginusername = undefined;
+    }
+
 
     this.setCredentials = function(loginkey, loginusername) {
         this.loginkey = loginkey;
