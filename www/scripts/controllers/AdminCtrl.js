@@ -43,9 +43,9 @@
             var fd = new FormData();
             fd.append('file', $scope.battlefile);
 
-            $http.post('/api/battles/upload', fd, {
+            $http.post('/api/battle/upload', fd, {
                 transformRequest: angular.identity,
-                headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
+                headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition}
             }).then(function(){
                 console.log("File uploaded!");
                 $scope.message = {show:true, details: "File uploaded succesfully!"};
