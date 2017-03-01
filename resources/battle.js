@@ -105,6 +105,8 @@ function uploadFile(req, res) {
                     file.path = path.join(__dirname + '/../uploads/admin/' + folderName + '-' + file.name);
                 });
 
+                
+
                 // Return a 500 in case of an error
                 form.on('error', function(err) {
                     res.status(500).json({'error':true, 'message': err});
