@@ -24,8 +24,10 @@ angular.module('robocodecupApp')
                 headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
             }).then(function(){
                 console.log("File uploaded!");
+                $scope.message = {show:true, details: "File uploaded succesfully!"};
             },function(){
                 console.log("Error uploading file");
+                $scope.message = {show:true, details: "Error uploading file!"};
             });
 
             console.log(secretkey);
