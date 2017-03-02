@@ -17,8 +17,8 @@ angular.module('robocodecupApp')
         $scope.$on( 'competition.update', function( event ) {
             $log.info("TeamsCtrl: Competition updated, updating rankings");
 
-            //$scope.currentcompetition = CompetitionSrv.currentcompetition;
-            //$scope.currentround = CompetitionSrv.currentround;
+            // $scope.currentcompetition = CompetitionSrv.currentcompetition;
+            // $scope.currentround = CompetitionSrv.currentround;
             //updateRanking();
         });
 
@@ -26,17 +26,17 @@ angular.module('robocodecupApp')
          * Retrieves the ranking for the current competition and round
          */
         var updateRanking = function() {
-            $log.info('TeamsCtrl: Retrieving the teams for competition ' + $scope.currentcompetition.code);
+            // $log.info('TeamsCtrl: Retrieving the teams for competition ' + $scope.currentcompetition.code);
             $http({
                 method: 'GET',
-                url: '/api/competition/' + $scope.currentcompetition.code + '/team'
+                url: '/api/competition/useb_2017/team'// + $scope.currentcompetition.code + '/team'
             }).then(function success(response) {
                 $log.info('TeamsCtrl: Teams retrieved');
-                $scope.teams = response.data;
+                $scope.teams = response.data.teams;
             }, function error(response) {
                 $log.error('TeamsCtrl: There was an error: ' + response.statusText + ': ' + response.data);
             });
         }
-
+        updateRanking();
 
     });

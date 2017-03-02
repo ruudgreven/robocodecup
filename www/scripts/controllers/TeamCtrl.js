@@ -10,6 +10,10 @@
 angular.module('robocodecupApp')
     .controller('TeamCtrl', function ($scope, $routeParams, $http, $log) {
 
+        //TODO: Get these values from scope. Hardcoded them here for testing purposes.
+        $scope.currentcompetition = 'useb_2017';
+        $scope.currentround = 1;
+
         /**
          * Constructor
          * Retrieves the team information and the battles for this team from the server
@@ -31,10 +35,10 @@ angular.module('robocodecupApp')
             // Retrieve the battles
             $http({
                 method: 'GET',
-                url: '/api/battle?team_name=' + $routeParams.teamid
+                url: '/api/competition/' + $scope.currentcompetition + '/round/' +  $scope.currentround + '/battle?team=' + $routeParams.teamid
             }).then(function success(response) {
                 $log.info('TeamCtrl: Succesfully retrieved the battles');
-                $scope.battles = response.data;
+                $scope.battles = response.data.battles;
             }, function error(response) {
                 $log.error('TeamCtrl: There was an error: ' + response);
             });
