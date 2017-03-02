@@ -9,7 +9,7 @@ var rankingSchema = new Schema({
             team: {
                 code: {type: String, required: true, match: /\w/},
                 name: {type: String, required: true},
-                logo: {type: String, required: true}
+                logo: {type: String}
             },
             points: {type: Number, required: true},
             wins: {type: Number, required: true},
