@@ -1,4 +1,4 @@
-<div class="current_competition" ng-controller="CompetitionsCtrl">
+<div class="current_competition">
     Current competition: <em>{{currentcompetition.name}}</em> - Current round:
     <select name="repeatSelect" id="repeatSelect" ng-model="currentround" ng-change="update(id);">
         <option ng-repeat="round in currentcompetition.rounds" value="{{round}}">{{round}}</option>

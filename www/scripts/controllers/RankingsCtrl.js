@@ -8,7 +8,7 @@
  * Controller of the rankings
  */
 angular.module('robocodecupApp')
-    .controller('RankingsCtrl', function ($scope, $http, $log, CompetitionSrv) {
+    .controller('RankingsCtrl', function ($scope, $http, $log, CompetitionSvc) {
         $scope.rankings = [];
         $scope.currentcompetition = undefined;
         $scope.currentround = undefined;
@@ -19,9 +19,9 @@ angular.module('robocodecupApp')
         $scope.$on( 'competition.update', function( event ) {
             $log.info("RankingsCtrl: competition updated, updating rankings");
 
-            $scope.currentcompetition = CompetitionSrv.currentcompetition;
-            $scope.currentround = CompetitionSrv.currentround;
-            updateRanking();
+            //$scope.currentcompetition = CompetitionSvc.currentcompetition;
+            //$scope.currentround = CompetitionSvc.currentround;
+            //updateRanking();
         });
 
         /**

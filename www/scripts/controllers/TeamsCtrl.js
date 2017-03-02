@@ -8,7 +8,7 @@
  * List all teams
  */
 angular.module('robocodecupApp')
-    .controller('TeamsCtrl', function ($scope, $http, $log, CompetitionSrv) {
+    .controller('TeamsCtrl', function ($scope, $http, $log, CompetitionSvc) {
         $scope.teams = [];
 
         /**
@@ -17,9 +17,9 @@ angular.module('robocodecupApp')
         $scope.$on( 'competition.update', function( event ) {
             $log.info("TeamsCtrl: Competition updated, updating rankings");
 
-            $scope.currentcompetition = CompetitionSrv.currentcompetition;
-            $scope.currentround = CompetitionSrv.currentround;
-            updateRanking();
+            //$scope.currentcompetition = CompetitionSrv.currentcompetition;
+            //$scope.currentround = CompetitionSrv.currentround;
+            //updateRanking();
         });
 
         /**
