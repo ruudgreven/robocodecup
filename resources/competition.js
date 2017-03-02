@@ -120,7 +120,7 @@ router.get('/:competition_code/team', function (req, res) {
             res.status(500).json({error: "true", message: "Cannot find competitions"});
         }
         if (competitions === null || competitions.length == 0) {
-            res.status(404).json();
+            res.status(404).json({});
         } else {
             // Query teams if we have a valid competition.
             var fields = {code: true, name: true, logo: true, competitions: true, _id: false};
