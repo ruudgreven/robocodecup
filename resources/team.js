@@ -21,16 +21,40 @@ router.get('/', function (req, res) {
 
 });
 
-// Retrieve a specific team
-router.get('/:name', function (req, res) {
 
-    Team.findOne({'name': req.params.name}, {secret_key: false}, function (err, team) {
+/**
+ * @api {get} /api/team/<team_code> Retrieve a team
+ * @apiParam {String} team_code Team code (id).
+ *
+ * @apiGroup Teams
+ * @apiSuccess {String} code Team code (id).
+ * @apiSuccess {String} name Name of the team.
+ * @apiSuccess {String} logo The team's logo (url).
+ * @apiSuccess {String[]} competitions The competitions in the team is participating.
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "code": "team1",
+ *      "name": "Team 1",
+ *      "logo": "teamlogo_default.png",
+ *      "competitions": [
+ *          "useb_2017"
+ *      ]
+ *    }
+ * @apiErrorExample {json} Query error
+ *    HTTP/1.1 500 Internal Server Error
+ *    HTTP/1.1 404 Not Found
+ */
+router.get('/:team_code', function (req, res) {
+
+    var fields = {code: true, name: true, logo: true, competitions: true, _id: false};
+    Team.findOne({'code': req.params.team_code}, fields, function (err, team) {
         if (err) {
             console.error(err);
             res.status(500).json({error: "true", message: "Cannot find team"});
         }
         if (team === null || team.length == 0) {
-            res.status(404).json();
+            res.status(404).json({});
         } else {
             res.status(200).json(team);
         }
