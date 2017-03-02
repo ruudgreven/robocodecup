@@ -145,10 +145,12 @@ function uploadTeams(req, res) {
 
         for (var i = 0, len = teams.length; i < len; i++) {
             teams[i].logo = "teamlogo_default.png";
-            teams[i].secret_key = randomstring.generate({
-                length: 7,
-                charset: 'numeric'
-            });
+            if (teams[i].secret_key === undefined ) {
+                teams[i].secret_key = randomstring.generate({
+                    length: 7,
+                    charset: 'numeric'
+                });
+            }
             if (teams[i].competitions === undefined) {
                 teams[i].competitions = [];
             }
