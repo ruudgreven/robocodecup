@@ -25,7 +25,7 @@ angular.module('robocodecupApp').service('LoginSrv', function($log, localStorage
         this.loginkey = loginkey;
         this.loginusername = loginusername;
 
-        $log.info('Storing username ' + loginusername + ' and key ' + loginkey);
+        $log.info('LoginSrv: Storing username ' + loginusername + ' and key ' + loginkey);
         localStorageService.set('login', {
             key: loginkey,
             username: loginusername
@@ -36,11 +36,11 @@ angular.module('robocodecupApp').service('LoginSrv', function($log, localStorage
         localStorageService.remove('login');
         this.loginkey = undefined;
         this.loginusername = undefined;
-        $log.info('Cleared credentials');
+        $log.info('LoginSrv: Cleared credentials');
     };
 
     this.isLoggedIn = function() {
-        $log.info('Checked login:' + (this.loginkey != undefined));
+        $log.info('LoginSrv: Checked login:' + (this.loginkey != undefined));
         return this.loginkey != undefined;
     };
 

@@ -1,4 +1,3 @@
-
 'use strict';
 
 /**
@@ -16,7 +15,7 @@ angular.module('robocodecupApp')
          * When the something changed in the current competition, update the ranking
          */
         $scope.$on( 'competition.update', function( event ) {
-            $log.info("Competition updated, updating rankings");
+            $log.info("TeamsCtrl: Competition updated, updating rankings");
 
             $scope.currentcompetition = CompetitionSrv.currentcompetition;
             $scope.currentround = CompetitionSrv.currentround;
@@ -27,14 +26,15 @@ angular.module('robocodecupApp')
          * Retrieves the ranking for the current competition and round
          */
         var updateRanking = function() {
-            $log.info('Listing the teams for competition ' + $scope.currentcompetition.code);
+            $log.info('TeamsCtrl: Retrieving the teams for competition ' + $scope.currentcompetition.code);
             $http({
                 method: 'GET',
                 url: '/api/competition/' + $scope.currentcompetition.code + '/team'
             }).then(function success(response) {
+                $log.info('TeamsCtrl: Teams retrieved');
                 $scope.teams = response.data;
             }, function error(response) {
-                $log.error('There was an error: ' + response.statusText + ': ' + response.data);
+                $log.error('TeamsCtrl: There was an error: ' + response.statusText + ': ' + response.data);
             });
         }
 

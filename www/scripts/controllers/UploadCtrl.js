@@ -1,4 +1,3 @@
-
 'use strict';
 
 /**
@@ -11,7 +10,7 @@
 angular.module('robocodecupApp')
     .controller('UploadCtrl', function ($scope, $routeParams, $http, $log, config) {
         $scope.secretkey = '';
-        $scope.teamfile = undefined
+        $scope.teamfile = undefined;
 
         $scope.sendFile = function() {
             var secretkey = $scope.secretkey.toUpperCase();
@@ -19,18 +18,17 @@ angular.module('robocodecupApp')
             var fd = new FormData();
             fd.append('file', $scope.teamfile);
 
+            $log.info('UploadCtrl: Upload file to server to /api/team/upload');
             $http.post('../api/team/upload', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
             }).then(function(){
-                console.log("File uploaded!");
+                $log.info('UploadCtrl: File uploaded succesfully');
                 $scope.message = {show:true, details: "File uploaded succesfully!"};
             },function(){
-                console.log("Error uploading file");
+                $log.error('UploadCtrl: Error uploading file');
                 $scope.message = {show:true, details: "Error uploading file!"};
             });
 
-            console.log(secretkey);
-            console.log($scope.teamfile);
         }
     });
