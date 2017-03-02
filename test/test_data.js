@@ -34,32 +34,32 @@ module.exports = {
 
             var teams = [
                 new Team({
-                    name: 'TimTeam',
-                    fullname: 'Timothy\'s Team',
+                    code: 'TimTeam',
+                    name: 'Timothy\'s Team',
                     logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '12345',
                     competitions: ['useb_2017']
                 }),
                 new Team({
-                    name: 'RudeTeam',
-                    fullname: 'Ruud\'s Team',
+                    code: 'RudeTeam',
+                    name: 'Ruud\'s Team',
                     logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '54321',
                     competitions: ['useb_2017', 'useb_2016']
                 }),
                 new Team({
-                    name: 'CrazyTeam',
-                    fullname: 'Crazy\'s Team',
+                    code: 'CrazyTeam',
+                    name: 'Crazy\'s Team',
                     logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '54321',
                     competitions: ['useb_2017']
                 }),
                 new Team({
-                    name: 'OrphanTeam',
-                    fullname: 'Orphaned Team',
+                    code: 'OrphanTeam',
+                    name: 'Orphaned Team',
                     logo: "teamlogo_default.png",
                     description: 'None needed',
                     secret_key: '123',

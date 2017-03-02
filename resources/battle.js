@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 
 var Battle = require('../model/Battle');
+var Competition = require('../model/Competition');
 var User = require('../model/User');
 
 // List all battles.
@@ -85,48 +86,56 @@ function uploadFile(req, res) {
 
     // Create an form object
     var form = new formidable.IncomingForm();
+    form.competition = req.header('X-Competition');
+    form.round = req.header('X-CompetitionRound');
 
     form.multiples = true;
 
     // Store all uploads in the /uploads directory
+    var filepath = path.join(__dirname + '/../uploads/admin/battle_result.json');
     form.uploadDir = path.join(__dirname, '../uploads/admin/');
 
-    User
-        .find({username : req.header('X-Authentication')})
-        .then(function(docs) {
-            if (docs.length == 1) {
+    // When file has been uploaded successfully,
+    // rename it to it's orignal name.
+    form.on('fileBegin', function (name, file){
+        file.path = filepath;
+    });
 
-                // Set folder name
-                var folderName = docs[0].name;
+    // Return a 500 in case of an error
+    form.on('error', function(err) {
+        res.status(500).json({'error':true, 'message': err});
+    });
 
-                // When file has been uploaded successfully,
-                // rename it to it's orignal name.
-                form.on('fileBegin', function (name, file){
-                    file.path = path.join(__dirname + '/../uploads/admin/' + folderName + '-' + file.name);
-                });
+    // Send a response to the client when file upload is finished.
+    form.on('end', function() {
 
-                
+        var battles = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+        for (var i = 0, len = battles.length; i < len; i++) {
+            battles[i].competition = form.competition;
+            battles[i].round = form.round;
+        }
 
-                // Return a 500 in case of an error
-                form.on('error', function(err) {
-                    res.status(500).json({'error':true, 'message': err});
-                });
-
-                // Send a response to the client when file upload is finished.
-                form.on('end', function() {
-                    // TeamUploadValidator.extractTeams();
-                    res.status(201).json({'error':false, 'message':'Upload succesful.'})
-                });
-
-                // Parse the incoming request.
-                form.parse(req);
-            } else {
-                res.status(500).json({'error':true, 'message': err});
+        // Battle.collection.insert(battles, function (err, battleDocs) {
+        Battle.insertMany(battles, function (err, battleDocs) {
+            if (err) {
+                console.log("Error inserting battles.");
+                res.status(500).json({'error':true, 'message': 'The battles already exist.'})
             }
-        })
-        .catch(function(err) {
-            res.status(500).json({'error':true, 'message': 'Error uploading file.'});
+
+
+            Competition.findOneAndUpdate({code: form.competition}, {$push:{rounds:form.round}}, function(err, doc){
+                if(err){
+                    console.log("Something wrong when updating competition!");
+                }
+            });
+            var message = battleDocs.insertedCount + ' battles were successfully stored.';
+
+            res.status(201).json({'error':false, 'message': message})
         });
+    });
+
+    // Parse the incoming request.
+    form.parse(req);
 }
 
 module.exports = router;

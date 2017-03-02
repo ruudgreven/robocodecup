@@ -62,8 +62,8 @@ describe("competition.js test",function () {
                 if (err) {
                     return done(err);
                 }
-                var numCompetitions = res.body.length;
-                numCompetitions.should.be.exactly(2);
+                var competitions = res.body.competitions;
+                competitions.length.should.be.exactly(2);
                 done();
             });
     });
@@ -77,11 +77,10 @@ describe("competition.js test",function () {
                 if (err) {
                     return done(err);
                 }
-                var numCompetitions = res.body.length;
-                numCompetitions.should.be.exactly(1);
+                var competitions = res.body.competitions;
+                competitions.length.should.be.exactly(1);
 
-                var competition = res.body;
-                competition[0].code.should.be.exactly('useb_2017');
+                competitions[0].code.should.be.exactly('useb_2017');
                 done();
             });
     });
@@ -98,8 +97,6 @@ describe("competition.js test",function () {
                 var competition = res.body;
                 competition.code.should.be.exactly('useb_2017');
                 competition.name.should.be.exactly('USEB 2017');
-                competition.featured.should.be.exactly(true);
-                competition.official.should.be.exactly(true);
                 done();
             });
     });

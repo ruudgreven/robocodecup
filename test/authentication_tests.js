@@ -6,7 +6,7 @@ var server = supertest.agent("http://localhost:3000");
 var testdata = require('./test_data.js');
 var config = require('../config/config');
 
-describe("aithentication.js test",function () {
+describe("authentication.js test",function () {
 
     // Setup test environment.
     // Populate database.

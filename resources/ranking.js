@@ -7,19 +7,19 @@ var Ranking = require('../model/Ranking');
 router.use(function timeLog (req, res, next) {
     //Do some initialization???
     next()
-})
+});
 
 // List all rankings
 router.get('/', function (req, res) {
 
+    console.log("Competitions: " + req.params.competition_code  );
+
     var where = {};
     if (req.query.competition !== undefined) {
-        // where = {CompetitionSrv.js: req.query.CompetitionSrv.js};
         where.competition = req.query.competition;
     }
 
     if (req.query.round !== undefined) {
-        // where = {CompetitionSrv.js: req.query.CompetitionSrv.js, round: req.query.round};
         where.round = req.query.round;
     }
 

@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var teamSchema = new Schema({
-    name: {type: String, required: true, unique: true, match: /\w/},
-    fullname: {type: String, required: true, unique: true},
+    code: {type: String, required: true, unique: true, match: /\w/},
+    name: {type: String, required: true, unique: true},
     logo: {type: String, required: true},
     description: {type: String, required: false},
     secret_key: {type: String, required: true},

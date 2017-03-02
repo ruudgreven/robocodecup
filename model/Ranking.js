@@ -4,12 +4,21 @@ var Schema = mongoose.Schema;
 var rankingSchema = new Schema({
     competition: {type: String, required: true, match: /\w/},
     round: {type: Number, required: true},
-    teams: [{
-        team_name: {type: String, required: true, match: /\w/},
-        points: {type: Number, required: true},
-        played: {type: Number, required: true},
-        icon: {type: String}
-    }]
+    entries: [
+        {
+            team: {
+                code: {type: String, required: true, match: /\w/},
+                name: {type: String, required: true},
+                logo: {type: String, required: true}
+            },
+            points: {type: Number, required: true},
+            wins: {type: Number, required: true},
+            loses: {type: Number, required: true},
+            disqualifications: {type: Number, required: true},
+            played: {type: Number, required: true}
+        }
+    ]
+
 }, {strict: false});
 
 module.exports = mongoose.model("Ranking", rankingSchema);

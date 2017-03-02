@@ -68,8 +68,8 @@ describe("ranking test",function () {
             });
     });
 
-    it('should return a list of 3 rankings',function (done) {
-        server.get("/api/ranking?CompetitionSrv.js=useb_2017")
+    it('should return a list of 3 rankings for competitions USEB 2017',function (done) {
+        server.get("/api/competition/useb_2017/round/3/ranking")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -78,8 +78,8 @@ describe("ranking test",function () {
                     return done(err);
                 }
 
-                var numRankings = res.body.length;
-                numRankings.should.be.exactly(3);
+                var rankings = res.body;
+                rankings.entries.length.should.be.exactly(3);
                 done();
             });
     });
@@ -133,7 +133,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?CompetitionSrv.js=useb_2017&round=1")
+        server.get("/api/ranking?competition=useb_2017&round=1")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -157,7 +157,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?CompetitionSrv.js=useb_2017&round=2")
+        server.get("/api/ranking?competition=useb_2017&round=2")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -181,7 +181,7 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?CompetitionSrv.js=useb_2017&round=3")
+        server.get("/api/ranking?competition=useb_2017&round=3")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)

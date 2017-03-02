@@ -1,6 +1,7 @@
 var updateRanking = function (competition_id, round, callback) {
     var Ranking = require('./../Ranking');
     var Battle = require('./../Battle');
+    var Team = require('./../Team');
 
     // Aggregate over all the battles to compute the new ranking.
     // Explainer:
@@ -16,7 +17,34 @@ var updateRanking = function (competition_id, round, callback) {
                 $group: {
                     _id: "$teams.team_name",
                     played: {$sum: 1},
-                    points: {$sum: "$teams.points"}
+                    points: {$sum: "$teams.points"},
+                    wins: {
+                        $sum: {
+                            '$cond': [
+                                { '$eq': ['$teams.points', 3]},
+                                1,
+                                0
+                            ]
+                        }
+                    },
+                    loses: {
+                        $sum: {
+                            '$cond': [
+                                { '$eq': ['$teams.points', 1]},
+                                1,
+                                0
+                            ]
+                        }
+                    },
+                    disqualifications: {
+                        $sum: {
+                            '$cond': [
+                                { '$eq': ['$teams.points', 0]},
+                                1,
+                                0
+                            ]
+                        }
+                    }
                 }
             },
             {$sort: {points: -1}}
@@ -26,22 +54,42 @@ var updateRanking = function (competition_id, round, callback) {
             } else {
                 // We have a sorted list of teams with total points here.
                 // Let's replace the _id element key with team_name (conform schema).
-                ranking = JSON.parse(JSON.stringify(ranking).split('"_id":').join('"team_name":'));
-                // HACK: For now just add the default logo to every team.
-                for (var i = 0, len = ranking.length; i < len; i++) {
-                    ranking[i].icon = "teamlogo_default.png";
-                }
+                ranking = JSON.parse(JSON.stringify(ranking).split('"_id":').join('"team":'));
 
-                // Upsert the ranking.
-                var query = {'code': competition_id, 'round': round};
-                var update = {
-                        competition: competition_id,
-                        round: round,
-                        teams: ranking
-                };
-                var options = {upsert: true, new: true};
-                Ranking.findOneAndUpdate(query,update, options, function(err, result){
-                    callback(err, result);
+                var fields = {code: true, name: true, logo: true, competitions: true, _id: false};
+                Team.find({competitions: competition_id}, fields, function (err, teams) {
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        // HACK: For now just add the default logo to every team.
+                        for (var i = 0, len = ranking.length; i < len; i++) {
+                            ranking[i].icon = "teamlogo_default.png";
+                            // Subsitute team (which contains the code) with the team object.
+                            for (var j = 0, len_teams = teams.length; j< len_teams; j++) {
+                                if (teams[j].code === ranking[i].team) {
+                                    var teamRanking = {
+                                        code: teams[j].code,
+                                        name: teams[j].name,
+                                        logo: teams[j].logo
+                                    };
+                                    ranking[i].team = teamRanking;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Upsert the ranking.
+                        var query = {competition: competition_id, round: round};
+                        var update = {
+                            competition: competition_id,
+                            round: round,
+                            entries: ranking
+                        };
+                        var options = {upsert: true, new: true};
+                        Ranking.findOneAndUpdate(query,update, options, function(err, result){
+                            callback(err, result);
+                        });
+                    }
                 });
             }
         });

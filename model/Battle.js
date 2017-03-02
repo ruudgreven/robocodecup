@@ -6,6 +6,9 @@ var RankingUtil = require('./util/RankingUtil');
 var battleSchema = new Schema({
     competition: {type: String, required: true, match: /\w/},
     round: {type: Number, required: true},
+    scorefile: {type: String},
+    replayfile: {type: String},
+    datetime: {type: String},
     teams: [
         {
             // Referentia naar een team.
