@@ -122,15 +122,14 @@ function uploadFile(req, res) {
                 res.status(500).json({'error':true, 'message': 'The battles already exist.'})
             }
 
-
+            //TODO: Check whether round already exists.
             Competition.findOneAndUpdate({code: form.competition}, {$push:{rounds:form.round}}, function(err, doc){
                 if(err){
                     console.log("Something wrong when updating competition!");
                 }
+                var message = battleDocs.length + ' battles were successfully stored.';
+                res.status(201).json({'error':false, 'message': message})
             });
-            var message = battleDocs.insertedCount + ' battles were successfully stored.';
-
-            res.status(201).json({'error':false, 'message': message})
         });
     });
 
