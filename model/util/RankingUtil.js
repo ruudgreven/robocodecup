@@ -61,12 +61,13 @@ var updateRanking = function (competition_id, round, callback) {
                     if (err) {
                         callback(err, null);
                     } else {
+                        //TODO: Fix this.
                         // HACK: For now just add the default logo to every team.
                         for (var i = 0, len = ranking.length; i < len; i++) {
-                            ranking[i].icon = "teamlogo_default.png";
+                            //TODO: This code will break if the battles contain teams that are not present anymore.
                             // Subsitute team (which contains the code) with the team object.
                             for (var j = 0, len_teams = teams.length; j< len_teams; j++) {
-                                if (teams[j].code === ranking[i].team) {
+                                if (teams[j].code.toUpperCase() === ranking[i].team.toUpperCase()) {
                                     var teamRanking = {
                                         code: teams[j].code,
                                         name: teams[j].name,
