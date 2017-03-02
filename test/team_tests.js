@@ -79,7 +79,7 @@ describe("team test",function () {
                     return done(err);
                 }
                 var team = res.body;
-                team.name.should.be.exactly('TimTeam');
+                team.code.should.be.exactly('TimTeam');
                 should.not.exist(team.secret_key);
                 team.competitions.length.should.be.exactly(1);
                 team.competitions[0].should.be.exactly('useb_2017');
@@ -97,7 +97,7 @@ describe("team test",function () {
                     return done(err);
                 }
                 var team = res.body;
-                team.name.should.be.exactly('RudeTeam');
+                team.code.should.be.exactly('RudeTeam');
                 should.not.exist(team.secret_key);
                 team.competitions.length.should.be.exactly(2);
                 team.competitions[0].should.be.exactly('useb_2017');
@@ -119,7 +119,7 @@ describe("team test",function () {
             });
     });
 
-    it('should return a list of 3 teams in the USEB 2017 CompetitionSrv.js',function (done) {
+    it('should return a list of 3 teams in the USEB 2017 competition',function (done) {
         server.get("/api/competition/useb_2017/team/")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
@@ -129,8 +129,15 @@ describe("team test",function () {
                     return done(err);
                 }
 
-                var numCompetitions = res.body.length;
-                numCompetitions.should.be.exactly(3);
+                var teams = res.body.teams;
+                teams.length.should.be.exactly(3);
+                teams[0].code.should.be.exactly("TimTeam");
+                should.not.exists(teams[0].secret_key);
+                teams[1].code.should.be.exactly("RudeTeam");
+                should.not.exists(teams[1].secret_key);
+                teams[2].code.should.be.exactly("CrazyTeam");
+                should.not.exists(teams[2].secret_key);
+
                 done();
             });
     });

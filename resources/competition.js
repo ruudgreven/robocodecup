@@ -186,13 +186,12 @@ router.get('/:competition_code/round/:round_number/ranking', function (req, res)
             res.status(500).json({error: "true", message: "Cannot find competitions"});
         }
         if (competitionDocs === null || competitionDocs.length == 0) {
-            res.status(404).json();
+            res.status(404).json({});
         } else {
             // Query ranking if we have a valid competition.
             var fields = {competition: true, round: true, entries: true, _id: false};
             var where = {competition : req.params.competition_code, round: req.params.round_number};
-            Ranking.findOne(where, fields
-                , function (err, ranking) {
+            Ranking.findOne(where, fields, function (err, ranking) {
                 if (err) {
                     console.error(err);
                     res.status(500).json({error: "true", message: "Cannot find ranking"});

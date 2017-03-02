@@ -133,7 +133,8 @@ describe("ranking test",function () {
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2017&round=1")
+        // server.get("/api/ranking?competition=useb_2017&round=1")
+        server.get("/api/competition/useb_2017/round/1/ranking")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -143,21 +144,23 @@ describe("ranking test",function () {
                 }
 
                 var ranking = res.body;
-                ranking.length.should.be.exactly(1);
+                ranking.competition.should.be.exactly("useb_2017");
+                ranking.round.should.be.exactly(1);
 
-                var teams = ranking[0].teams;
+                var teams = ranking.entries;
                 teams.length.should.be.exactly(2);
-                teams[0].team_name.should.be.exactly("TimTeam");
                 teams[0].points.should.be.exactly(3);
-                teams[1].team_name.should.be.exactly("RudeTeam");
+                teams[0].team.code.should.be.exactly("TimTeam");
                 teams[1].points.should.be.exactly(0);
+                teams[1].team.code.should.be.exactly("RudeTeam");
 
                 done();
             });
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2017&round=2")
+        // server.get("/api/ranking?competition=useb_2017&round=2")
+        server.get("/api/competition/useb_2017/round/2/ranking")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -167,21 +170,23 @@ describe("ranking test",function () {
                 }
 
                 var ranking = res.body;
-                ranking.length.should.be.exactly(1);
+                ranking.competition.should.be.exactly("useb_2017");
+                ranking.round.should.be.exactly(2);
 
-                var teams = ranking[0].teams;
+                var teams = ranking.entries;
                 teams.length.should.be.exactly(2);
-                teams[0].team_name.should.be.exactly("RudeTeam");
                 teams[0].points.should.be.exactly(4);
-                teams[1].team_name.should.be.exactly("TimTeam");
+                teams[0].team.code.should.be.exactly("RudeTeam");
                 teams[1].points.should.be.exactly(1);
+                teams[1].team.code.should.be.exactly("TimTeam");
 
                 done();
             });
     });
 
     it('should return a list of 1 rankings',function (done) {
-        server.get("/api/ranking?competition=useb_2017&round=3")
+        // server.get("/api/ranking?competition=useb_2017&round=3")
+        server.get("/api/competition/useb_2017/round/3/ranking")
             .set('Accept', 'application/json')
             .expect("Content-type", /json/)
             .expect(200)
@@ -191,16 +196,18 @@ describe("ranking test",function () {
                 }
 
                 var ranking = res.body;
-                ranking.length.should.be.exactly(1);
+                ranking.competition.should.be.exactly("useb_2017");
+                ranking.round.should.be.exactly(3);
 
-                var teams = ranking[0].teams;
+                var teams = ranking.entries;
                 teams.length.should.be.exactly(3);
-                teams[0].team_name.should.be.exactly("TimTeam");
                 teams[0].points.should.be.exactly(6);
-                teams[1].team_name.should.be.exactly("RudeTeam");
+                teams[0].team.code.should.be.exactly("TimTeam");
                 teams[1].points.should.be.exactly(3);
-                teams[2].team_name.should.be.exactly("CrazyTeam");
+                teams[1].team.code.should.be.exactly("RudeTeam");
                 teams[2].points.should.be.exactly(0);
+                teams[2].team.code.should.be.exactly("CrazyTeam");
+
                 done();
             });
     });
