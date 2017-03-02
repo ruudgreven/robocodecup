@@ -46,6 +46,7 @@
         <th class="col-md-3">Team 1</th>
         <th class="col-md-3">Team 2</th>
         <th class="col-md-1">Score</th>
+        <th class="col-md-1">Replay</th>
     </tr>
     </thead>
     <tbody>
@@ -61,6 +62,7 @@
         <td class="vert-align">
             {{battle.teams[0].points}} - {{battle.teams[1].points}}
         </td>
+        <td><a href="#!/download/{{battle.replayfile}}">{{battle.replayfile}}</a></td>
     </tr>
     </tbody>
 </table>

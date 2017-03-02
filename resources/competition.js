@@ -212,6 +212,7 @@ router.get('/:competition_code/round/:round_number/ranking', function (req, res)
  * @apiParam {String} [team_code]  Team name for which the battle list should be filtered.
 
  * @apiGroup Competitions
+ * @apiSuccess {Number} replayfile The robocode replay file for a battle.
  * @apiSuccess {Number} round The round for which the battles are shown.
  * @apiSuccess {String} competition The competition for the ranking.
  * @apiSuccess {Team[]} teams A list of two teams and their scores.
@@ -222,6 +223,7 @@ router.get('/:competition_code/round/:round_number/ranking', function (req, res)
  *          {
  *              "round": 3,
  *              "competition": "useb_2017",
+ *              "replayfile": "replay.br",
  *              "teams": [
  *                  {
  *                      "team_name": "team1",
@@ -257,7 +259,7 @@ router.get('/:competition_code/round/:round_number/battle', function (req, res) 
     where.competition = req.params.competition_code;
     where.round = req.params.round_number;
 
-    var fields = {round: true, competition: true, teams: true, _id: false};
+    var fields = {round: true, competition: true, replayfile: true, teams: true, _id: false};
     Battle.find(where, fields, function (err, battles) {
         if (err) {
             console.error(err);
