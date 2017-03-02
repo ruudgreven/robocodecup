@@ -8,6 +8,12 @@
  * Controller for all the admin pages.
  */
 angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http, $location, LoginSrv) {
+
+    // TODO: Set competition is scope the proper way.
+    // TODO: Add a $log element.
+    // TODO: Retrieve teams at the proper time (now its on init).
+    // TODO: Think of a better url  for listing teams including secrets (its now "/api/competitions/<code>/team/all")
+
     $scope.competition = "useb_2017";
 
     /**
@@ -21,6 +27,7 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
 
     $scope.$on('$routeChangeSuccess', function() {
         init();
+        retrieveTeams();
     });
 
     /**
@@ -37,15 +44,16 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
     var retrieveTeams = function() {
         var secretkey = LoginSrv.getLoginKey();
 
-        $log.info('AdminCtrl: Retrieving a list of teams from the server');
+        // $log.info('AdminCtrl: Retrieving a list of teams from the server');
         $http({
             method: 'GET',
-            url: '/api/team/show/all',
+            url: '/api/competition/' + $scope.competition + '/team/all',
             headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
         }).then(function success(response) {
-            $scope.teams = response.data;
+            $scope.teams = response.data.teams;
         }, function error(response) {
-            $log.error('AdminCtrl: There was an error: ' + response.statusText + ': ' + response.data);
+            // $log.error('AdminCtrl: There was an error: ' + response.statusText + ': ' + response.data);
+            console.log('AdminCtrl: There was an error: ' + response.statusText + ': ' + response.data);
         });
     };
 
@@ -59,16 +67,16 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         fd.append('file', $scope.battlefile);
         //TODO: Add competition to formdata instead of header
 
-        $log.info('AdminCtrl: Upload file to server to /api/battle/upload');
+        // $log.info('AdminCtrl: Upload file to server to /api/battle/upload');
         $http.post('/api/battle/upload', fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition}
+            headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition, 'X-CompetitionRound' : $scope.round}
 
         }).then(function(){
-            $log.info('AdminCtrl: File uploaded succesfully');
+            // $log.info('AdminCtrl: File uploaded succesfully');
             $scope.message = {show:true, details: "File uploaded succesfully!"};
         },function(){
-            $log.error('AdminCtrl: Error uploading file');
+            // $log.error('AdminCtrl: Error uploading file');
             $scope.message = {show:true, details: "Error uploading file!"};
         });
     };
@@ -83,15 +91,15 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         fd.append('file', $scope.teamfile);
         //TODO: Add competition to formdata instead of header
 
-        $log.info('AdminCtrl: Upload file to server to /api/team/upload/team');
+        // $log.info('AdminCtrl: Upload file to server to /api/team/upload/team');
         $http.post('/api/team/upload/team', fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition}
         }).then(function(){
-            $log.info('AdminCtrl: File uploaded succesfully');
+            // $log.info('AdminCtrl: File uploaded succesfully');
             $scope.message = {show:true, details: "File uploaded succesfully!"};
         },function(){
-            $log.error('AdminCtrl: Error uploading file');
+            // $log.error('AdminCtrl: Error uploading file');
             $scope.message = {show:true, details: "Error uploading file!"};
         });
     }
