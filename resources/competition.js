@@ -245,6 +245,7 @@ router.get('/:competition_code/round/:round_number/ranking', function (req, res)
  */
 router.get('/:competition_code/round/:round_number/battle', function (req, res) {
 
+    // Optionally filter by team.
     var where = {};
     if (req.query.team !== undefined) {
         where.teams =
