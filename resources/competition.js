@@ -83,7 +83,6 @@ router.get('/:competition_code', function (req, res) {
 
 });
 
-
 /**
  * @api {get} /api/competition/<competition_code>/team List teams in competition
  * @apiParam {String} competition_code Competition code (id).
@@ -114,12 +113,12 @@ router.get('/:competition_code', function (req, res) {
 router.get('/:competition_code/team', function (req, res) {
 
     // Query competition to see if it exists.
-    Competition.findOne({code: req.params.competition_code}, {},  function (err, competitions) {
+    Competition.findOne({code: req.params.competition_code}, function (err, competitionDocs) {
         if (err) {
             console.error(err);
             res.status(500).json({error: "true", message: "Cannot find competitions"});
         }
-        if (competitions === null || competitions.length == 0) {
+        if (competitionDocs === null || competitionDocs.length == 0) {
             res.status(404).json({});
         } else {
             // Query teams if we have a valid competition.
@@ -270,5 +269,66 @@ router.get('/:competition_code/round/:round_number/battle', function (req, res) 
 
 });
 
+
+
+//--------------------------------------------------------------------------------------------------------------------
+
+var authz = require('./api_authorization');
+router.use(authz);
+
+//--------------------------------------------------------------------------------------------------------------------
+
+/**
+ * @api {get} /api/competition/<competition_code>/team List teams in competition
+ * @apiParam {String} competition_code Competition code (id).
+ *
+ * @apiGroup Competitions
+ * @apiSuccess {Team[]} teams The list of teams.
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "teams": [
+ *          {
+ *              "code": "team1",
+ *              "name": "Team 1",
+ *              "logo": "teamlogo_default.png",
+ *              "competitions": [
+ *                  "useb_2017"
+ *              ]
+ *          },
+ *          {
+ *              ...
+ *          },
+ *      ]
+ *    }
+ * @apiErrorExample {json} Query error
+ *    HTTP/1.1 500 Internal Server Error
+ *    HTTP/1.1 404 Not Found
+ */
+router.get('/:competition_code/team/all', function (req, res) {
+
+    // Query competition to see if it exists.
+    Competition.findOne({code: req.params.competition_code}, function (err, competitionDocs) {
+        if (err) {
+            console.error(err);
+            res.status(500).json({error: "true", message: "Cannot find competitions"});
+        }
+        if (competitionDocs === null || competitionDocs.length == 0) {
+            res.status(404).json({});
+        } else {
+            // Query teams if we have a valid competition.
+            var fields = {code: true, name: true, logo: true, secret_key: true, competitions: true, _id: false};
+            Team.find({competitions: req.params.competition_code}, fields, function (err, teams) {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({error: "true", message: "Cannot find teams"});
+                }
+                var results = {teams: teams};
+                res.status(200).json(results);
+            });
+        }
+    });
+
+});
 
 module.exports = router;
