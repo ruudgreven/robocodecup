@@ -8,40 +8,55 @@
  * Controller for one team
  */
 angular.module('robocodecupApp')
-    .controller('TeamCtrl', function ($scope, $routeParams, $http, $log) {
+    .controller('TeamCtrl', function ($scope, $routeParams, $http, $log, CompetitionSvc) {
 
-        //TODO: Get these values from scope. Hardcoded them here for testing purposes.
-        $scope.currentcompetition = 'useb_2017';
-        $scope.currentround = 1;
+        $scope.competition = CompetitionSvc.getCurrentCompetition();
+        $scope.round = CompetitionSvc.getCurrentRound();
+
+        $scope.$watch('round', function() {
+            updateTeamBattlesPerRound();
+        });
 
         /**
-         * Constructor
-         * Retrieves the team information and the battles for this team from the server
+         * Retrieves the team data from the server
          */
-        var init = function() {
-            $log.info('TeamCtrl: Retrieving team details for team with id' + $routeParams.teamid);
+        var updateTeamData = function() {
+            var url = '/api/team/' + $routeParams.teamid;
+            $log.info('TeamCtrl: Retrieving team details from ' + url);
             // Retrieve team details
             $http({
                 method: 'GET',
-                url: '/api/team/' + $routeParams.teamid
+                url: url
             }).then(function success(response) {
                 $log.info('TeamCtrl: Succesfully retrieved team details');
                 $scope.team = response.data;
             }, function error(response) {
                 $log.error('TeamCtrl: There was an error: ' + response);
             });
+        };
 
-            $log.info('TeamCtrl: Retrieving the battles for team with id' + $routeParams.teamid);
+        var updateTeamBattlesPerRound = function() {
+            var url = '/api/competition/' + $scope.competition.code + '/round/' +  $scope.round + '/battle?team=' + $routeParams.teamid;
+            $log.info('TeamCtrl: Retrieving the battles from ' + url);
             // Retrieve the battles
             $http({
                 method: 'GET',
-                url: '/api/competition/' + $scope.currentcompetition + '/round/' +  $scope.currentround + '/battle?team=' + $routeParams.teamid
+                url: url
             }).then(function success(response) {
-                $log.info('TeamCtrl: Succesfully retrieved the battles');
+                $log.info('TeamCtrl: Succesfully retrieved ' + response.data.battles.length + ' battles.');
                 $scope.battles = response.data.battles;
             }, function error(response) {
                 $log.error('TeamCtrl: There was an error: ' + response);
             });
+        }
+
+        /**
+         * Constructor
+         * Retrieves the team information and the battles for this team from the server
+         */
+        var init = function() {
+            updateTeamData();
+            updateTeamBattlesPerRound();
         };
 
         $scope.$on('$routeChangeSuccess', function() {

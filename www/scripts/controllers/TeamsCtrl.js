@@ -10,33 +10,36 @@
 angular.module('robocodecupApp')
     .controller('TeamsCtrl', function ($scope, $http, $log, CompetitionSvc) {
         $scope.teams = [];
+        $scope.competition = CompetitionSvc.getCurrentCompetition();
 
         /**
          * When the something changed in the current competition, update the ranking
          */
         $scope.$on( 'competition.update', function( event ) {
-            $log.info("TeamsCtrl: Competition updated, updating rankings");
-
-            // $scope.currentcompetition = CompetitionSrv.currentcompetition;
-            // $scope.currentround = CompetitionSrv.currentround;
-            //updateRanking();
+            //TODO: There seem to be some nasty scoping bug that prevents this from working. When we update the scope here it does not work.
+            updateTeams();
         });
 
         /**
          * Retrieves the ranking for the current competition and round
          */
-        var updateRanking = function() {
-            // $log.info('TeamsCtrl: Retrieving the teams for competition ' + $scope.currentcompetition.code);
+        var updateTeams = function() {
+            var url = '/api/competition/' + CompetitionSvc.getCurrentCompetition().code + '/team';
+
+            $log.info('TeamsCtrl: Retrieving teams from ' + url);
             $http({
                 method: 'GET',
-                url: '/api/competition/useb_2017/team'// + $scope.currentcompetition.code + '/team'
+                url: url
             }).then(function success(response) {
                 $log.info('TeamsCtrl: Teams retrieved');
                 $scope.teams = response.data.teams;
             }, function error(response) {
                 $log.error('TeamsCtrl: There was an error: ' + response.statusText + ': ' + response.data);
             });
-        }
-        updateRanking();
+
+        };
+
+        //TODO: Remove this call, should be triggered by a scope update or someting
+        updateTeams();
 
     });

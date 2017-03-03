@@ -1,34 +1,44 @@
-<div class="current_competition">
-    Current competition: <em>{{currentcompetition.name}}</em> - Current round:
-    <select name="repeatSelect" id="repeatSelect" ng-model="currentround" ng-change="update(id);">
-        <option ng-repeat="round in currentcompetition.rounds" value="{{round}}">{{round}}</option>
-    </select>
+<div class="row">
+    <div class="col-md-offset-10 col-md-2">
+        <form class="form">
+            <div class="form-group">
+                <select class="form-control" ng-options="item for item in competition.rounds" ng-model="round">
+                </select>
+            </div>
+        </form>
+    </div>
 </div>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th class="col-md-1">#</th>
-            <th class="col-md-6">Name</th>
-            <th class="col-md-1 active">Played</th>
-            <th class="col-md-1 success" title="# of battles won">Won</th>
-            <th class="col-md-1 warning" title="# of battles lost">Lost</th>
-            <th class="col-md-1 danger" title="# of battles disqualified">Disq</th>
-            <th class="col-md-1 active" title="Total points this round">Points</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="ranking in rankings">
-            <td class="vert-align">{{$index +1}}</td>
-            <td class="vert-align">
-                <img src="images/{{ranking.icon}}" style="height: 32px;" alt="Teamlogo Ruud's team" class="img-circle">
-                <a href="#!/team/{{ranking.team_name}}">{{ranking.team_name}}</a>
-            </td>
-            <td class="active vert-align">{{ranking.played}}</td>
-            <td class="success vert-align">{{ranking.won}}</td>
-            <td class="warning vert-align">{{ranking.lost}}</td>
-            <td class="danger vert-align">{{ranking.disq}}</td>
-            <td class="active vert-align">{{ranking.points}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="row" style="height: 20px;"></div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-6">Name</th>
+                    <th class="col-md-1 active">Played</th>
+                    <th class="col-md-1 success" title="# of battles won">Won</th>
+                    <th class="col-md-1 warning" title="# of battles lost">Lost</th>
+                    <th class="col-md-1 danger" title="# of battles disqualified">Disq</th>
+                    <th class="col-md-1 active" title="Total points this round">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ranking in rankings">
+                    <td class="vert-align">{{$index +1}}</td>
+                    <td class="vert-align">
+                        <img src="images/{{ranking.team.logo}}" style="height: 32px;" alt="Teamlogo {{ranking.team.name}}" class="img-circle">
+                        <a href="#!/team/{{ranking.team.code}}">{{ranking.team.name}}</a>
+                    </td>
+                    <td class="active vert-align">{{ranking.played}}</td>
+                    <td class="success vert-align">{{ranking.wins}}</td>
+                    <td class="warning vert-align">{{ranking.loses}}</td>
+                    <td class="danger vert-align">{{ranking.disqualifications}}</td>
+                    <td class="active vert-align">{{ranking.points}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

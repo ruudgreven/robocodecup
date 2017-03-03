@@ -1,17 +1,22 @@
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th class="col-md-1">#</th>
-        <th class="col-md-6">Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="team in teams">
-        <td class="vert-align">{{$index +1}}</td>
-        <td class="vert-align">
-            <img src="images/{{team.logo}}" style="height: 32px;" alt="Teamlogo" class="img-circle">
-            <a href="#!/team/{{team.code}}">{{team.name}}</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-12">
+        <h3>All teams in {{competition.name}}</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-6">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="team in teams">
+                <td class="vert-align">{{$index +1}}</td>
+                <td class="vert-align">
+                    <img src="images/{{team.logo}}" style="height: 32px;" alt="Teamlogo" class="img-circle">
+                    <a href="#!/team/{{team.code}}">{{team.name}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

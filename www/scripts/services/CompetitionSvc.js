@@ -50,6 +50,10 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
             return currentcompetition;
         },
 
+        getCurrentRound: function() {
+            return currentround;
+        },
+
         /**
          * Set the current competition and the current round
          * @param code The code of the competition
@@ -68,6 +72,7 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
                     }
 
                     $rootScope.$broadcast('competition.update');
+                    break;
                 }
             }
         }
