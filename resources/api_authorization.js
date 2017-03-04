@@ -14,14 +14,14 @@ router.use('/', function (req, res, next) {
 
             // Return 401 if token is invalid.
             if (err) {
-                return res.status(401).json({message: 'Invalid token.'});
+                return res.status(401).json({error: true, message: 'Invalid token.'});
             }
 
             //Call the next in middleware.
             return next();
         });
     } else {
-        return res.status(401).json({message: 'No token was provided!'});
+        return res.status(401).json({error: true, message: 'No token was provided!'});
     }
 });
 

@@ -280,6 +280,91 @@ router.use(authz);
 
 //--------------------------------------------------------------------------------------------------------------------
 
+
+/**
+ * @api {post} /api/competition/ Create a new competition
+ *
+ * @apiGroup Competitions
+ * @apiParam {String} code Competition code (id).
+ * @apiParam {String} name Name of the competition.
+ * @apiParam {String} [description] The competition's description.
+ * @apiParam {Number} [current_round] The competition's current round.
+ * @apiParam {Number[]} [rounds] The rounds in the competition so far.
+ * @apiParam {Boolean} official A boolean indicating whether the competition is official.
+ * @apiParam {Boolean} featured A boolean indicating whether the competition is featured.
+ *
+ * @apiSuccess {Boolean} error A boolean indicating whether an error has occurred.
+ * @apiSuccess {String} message Error or succes message
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 201 Created
+ *    {
+ *      "error": false,
+ *      "message": "Competition useb_2017 created."
+ *    }
+ * @apiErrorExample {json} Query error
+ *    HTTP/1.1 409 Conflict
+ *    HTTP/1.1 400 Not Found
+ */
+router.post('/', function (req, res) {
+
+    // Validate input first.
+    if (!req.body.code || req.body.code === "") {
+        return res.status(400).json({error: true, message: "Invalid code for competition."});
+    }
+
+    if (!req.body.name || req.body.name === "") {
+        return res.status(400).json({error: true, message: "Invalid name for competition."});
+    }
+
+    if (req.body.official === undefined || req.body.official === "") {
+        return res.status(400).json({error: true, message: "Competition should be defined as official or not."});
+    }
+
+    if (req.body.featured === undefined || req.body.featured === "") {
+        return res.status(400).json({error: true, message: "Competition should be defined as featured or not."});
+    }
+
+    var valid_current_round = true;
+    if (req.body.current_round !== undefined) {
+        valid_current_round = false;
+        var rounds = req.body.rounds;
+        if (rounds !== undefined) {
+            for (var i = 0, len = rounds.length; i < len; i++) {
+                if (rounds[i] === req.body.current_round) {
+                    valid_current_round = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (!valid_current_round) {
+        return res.status(400).json({error: true, message: "Current round is invalid."});
+    }
+
+
+    var newCompetition = new Competition();
+    newCompetition.code = req.body.code;
+    newCompetition.name = req.body.name;
+    newCompetition.description = req.body.description;
+    newCompetition.current_round = req.body.current_round;
+    newCompetition.rounds = [];
+    if (req.body.featured !== undefined) {
+        newCompetition.rounds = req.body.rounds;
+    }
+    newCompetition.official = req.body.official;
+    newCompetition.featured = req.body.featured;
+
+    // Save new competition.
+    newCompetition.save(function (err) {
+        if (err) {
+            return res.status(409).json({error: true, message: "Can't save the new competition."});
+        }
+        //Return 201
+        return res.status(201).json({error: false, message: "Competition "+ newCompetition.code +" created."});
+    });
+});
+
 /**
  * @api {get} /api/competition/<competition_code>/team List teams in competition
  * @apiParam {String} competition_code Competition code (id).
