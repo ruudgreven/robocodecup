@@ -68,7 +68,7 @@ router.post('/upload', function (req, res) {
 });
 
 function uploadJar(req, res) {
-    var fileName;
+    var secret_key = req.header('X-Authentication');
 
     // Create an form object
     var form = new formidable.IncomingForm();
@@ -78,40 +78,40 @@ function uploadJar(req, res) {
     // Store all uploads in the /uploads directory
     form.uploadDir = path.join(__dirname, '../uploads/');
 
-    Team
-        .find({secret_key : req.header('X-Authentication')})
-        .then(function(docs) {
-            if (docs.length == 1) {
+    var fields = {code: true, name: true, logo: true, competitions: true, _id: false};
+    Team.findOne({'secret_key': secret_key}, fields, function (err, teamDoc) {
+        if (err) {
+            console.error(err);
+            res.status(500).json({'error':true, message: 'Error uploading file.'});
+        }
+        if (teamDoc === null || teamDoc.length == 0) {
+            res.status(404).json({'error':true, message: 'Error uploading file.'});
+        } else {
 
-                // Set folder name
-                var folderName = docs[0].name;
+            // Set folder name
+            var folderName = teamDoc.name;
 
-                // When file has been uploaded successfully,
-                // rename it to it's orignal name.
-                form.on('fileBegin', function (name, file){
-                    file.path = path.join(__dirname + '/../uploads/' + folderName + '-' + file.name);
-                });
+            // When file has been uploaded successfully,
+            // rename it to it's orignal name.
+            form.on('fileBegin', function (name, file){
+                file.path = path.join(__dirname + '/../uploads/' + folderName + '-' + file.name);
+            });
 
-                // Return a 500 in case of an error
-                form.on('error', function(err) {
-                    res.status(500).json({'error':true, 'message': err});
-                });
-
-                // Send a response to the client when file upload is finished.
-                form.on('end', function() {
-                    // TeamUploadValidator.extractTeams();
-                    res.status(201).json({'error':false, 'message':'Upload succesfull.'})
-                });
-
-                // Parse the incoming request.
-                form.parse(req);
-            } else {
+            // Return a 500 in case of an error
+            form.on('error', function(err) {
                 res.status(500).json({'error':true, 'message': err});
-            }
-        })
-        .catch(function(err) {
-            res.status(500).json({'error':true, 'message': 'Error uploading file.'});
-        });
+            });
+
+            // Send a response to the client when file upload is finished.
+            form.on('end', function() {
+                // TeamUploadValidator.extractTeams();
+                res.status(201).json({'error':false, 'message':'Upload succesfull.'})
+            });
+
+            // Parse the incoming request.
+            form.parse(req);
+        }
+    });
 }
 
 //--------------------------------------------------------------------------------------------------------------------
