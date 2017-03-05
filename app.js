@@ -57,22 +57,11 @@ db.once('open', function () {
     var query = {name: config.admin.name};
     var options = {};
     User.findOneAndRemove(query, options, function (err, doc, result) {
+        // TODO: Only update admin if no admin exists. Onboarding process should be more simple.
         var adminUser = new User({name: config.admin.name, password: config.admin.password});
         adminUser.save(function (err, doc) {
             if(err) {
                 console.log('* Error creating admin user.');
-            }
-        });
-        var competition = new Competition({
-            code: 'useb_2017',
-            name: 'USEB 2017',
-            description: 'The Ultimate SElection Battle 2017',
-            official: true,
-            featured: true
-        });
-        competition.save(function (err, doc) {
-            if(err) {
-                console.log('* Error creating default competition.');
             }
         });
     });
