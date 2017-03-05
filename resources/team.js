@@ -82,10 +82,10 @@ function uploadJar(req, res) {
     Team.findOne({'secret_key': secret_key}, fields, function (err, teamDoc) {
         if (err) {
             console.error(err);
-            res.status(500).json({'error':true, message: 'Error uploading file.'});
+            res.status(500).json({'error':true, message: 'Error uploading file. Team with given code not found'});
         }
         if (teamDoc === null || teamDoc.length == 0) {
-            res.status(404).json({'error':true, message: 'Error uploading file.'});
+            res.status(404).json({'error':true, message: 'Error uploading file. Team with given code not found'});
         } else {
 
             // Set folder name
