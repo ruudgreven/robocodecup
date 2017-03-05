@@ -24,7 +24,26 @@
         </div>
     </div>
     <div class="col-sm-9">
-        Admin page
-        <button type="button" class="btn btn-danger" ng-click="logout();">Logout</button>
+        <button type="button" style="float: right;" class="btn btn-danger" ng-click="logout();">Logout</button>
+        <h3>This is the administration page for {{competition.name}}</h3>
+        <h4>Stats for this competition</h4>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="col-md-1">Code</th>
+                <th class="col-md-3">Name</th>
+                <th class="col-md-3">Description</th>
+                <th class="col-md-3"># of rounds</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="vert-align">{{competition.code}}</td>
+                <td class="vert-align">{{competition.name}}</td>
+                <td class="vert-align">{{competition.description}}</td>
+                <td class="vert-align">{{competition.rounds.length}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>

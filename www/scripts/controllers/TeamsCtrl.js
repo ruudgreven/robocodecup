@@ -17,6 +17,7 @@ angular.module('robocodecupApp')
          */
         $scope.$on( 'competition.update', function( event ) {
             //TODO: There seem to be some nasty scoping bug that prevents this from working. When we update the scope here it does not work.
+            $scope.competition = CompetitionSvc.getCurrentCompetition();
             updateTeams();
         });
 

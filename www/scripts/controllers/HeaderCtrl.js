@@ -27,5 +27,6 @@ angular.module('robocodecupApp').controller('HeaderCtrl', function ($scope, $htt
 
     $scope.setCurrentCompetition = function(code) {
         CompetitionSvc.setCurrentCompetition(code);
+        $scope.currentcompetition = CompetitionSvc.getCurrentCompetition();
     }
 });

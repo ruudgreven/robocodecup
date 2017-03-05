@@ -17,7 +17,8 @@ angular.module('robocodecupApp')
          * When the something changed in the current competition, update the ranking
          */
         $scope.$on( 'competition.update', function( event ) {
-            //TODO: There seem to be some nasty scoping bug that prevents this from working. When we update the scope here it does not work.
+            $scope.competition = CompetitionSvc.getCurrentCompetition();
+            $scope.round = CompetitionSvc.getCurrentRound();
             updateRanking();
         });
 
@@ -30,6 +31,10 @@ angular.module('robocodecupApp')
          */
         var updateRanking = function() {
             var round = CompetitionSvc.getCurrentRound();
+            if (round == undefined) {
+                $log.info("RankingsCtrl: No current round, cannot show ranking");
+                return;
+            }
             var url = '/api/competition/' + $scope.competition.code  + '/round/' + $scope.round + '/ranking';
 
             $log.info('RankingsCtrl: Retreiving ranking from ' + url );
@@ -37,6 +42,10 @@ angular.module('robocodecupApp')
                 method: 'GET',
                 url: url
             }).then(function success(response) {
+                if (response.data == undefined) {
+                    $log.error('The API responded with NULL data, something went wrong: ' + response.statusText + ': ' + response.data);
+                    return;
+                }
                 $scope.rankings = response.data.entries;
                 $log.info('RankingsCtrl: Received rankings succesfully');
             }, function error(response) {

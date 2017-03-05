@@ -7,14 +7,13 @@
  * # AdminCtrl
  * Controller for all the admin pages.
  */
-angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http, $location, LoginSrv) {
-
-    // TODO: Set competition is scope the proper way.
-    // TODO: Add a $log element.
+angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http, $log, $location, LoginSrv, CompetitionSvc) {
     // TODO: Retrieve teams at the proper time (now its on init).
     // TODO: Think of a better url  for listing teams including secrets (its now "/api/competitions/<code>/team/all")
 
-    $scope.competition = "useb_2017";
+    $scope.competition = CompetitionSvc.getCurrentCompetition();
+    $scope.round = CompetitionSvc.getCurrentRound();
+    $scope.teams = [];
 
     /**
      * Initializes this controller
@@ -29,6 +28,21 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         init();
         retrieveTeams();
     });
+
+    /**
+     * Helper method for error handling. Removes token and redirects to the login page if the statuscode is 401
+     * @param message The error message
+     * @param errorResponse The error response object
+     */
+    var handleError = function(message, errorResponse) {
+        if (errorResponse.status == 401) {
+            $log.info('Retrieved 401 from server. Most common cause is that your token is expired. Redirect to login page');
+            LoginSrv.clearCredentials();
+            $location.path('/login');
+        } else {
+            $log.error('AdminCtrl: ' + message + ': ' + errorResponse.statusText + ': ' + errorResponse.data);
+        }
+    };
 
     /**
      * Logs the current user out and redirects to / (home)
@@ -47,13 +61,12 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         // $log.info('AdminCtrl: Retrieving a list of teams from the server');
         $http({
             method: 'GET',
-            url: '/api/competition/' + $scope.competition + '/team/all',
+            url: '/api/competition/' + $scope.competition.code + '/team/all',
             headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
         }).then(function success(response) {
             $scope.teams = response.data.teams;
         }, function error(response) {
-            // $log.error('AdminCtrl: There was an error: ' + response.statusText + ': ' + response.data);
-            console.log('AdminCtrl: There was an error: ' + response.statusText + ': ' + response.data);
+            handleError('Error retrieving teams', response);
         });
     };
 
@@ -70,14 +83,14 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         // $log.info('AdminCtrl: Upload file to server to /api/battle/upload');
         $http.post('/api/battle/upload', fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition, 'X-CompetitionRound' : $scope.round}
+            headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition.code, 'X-CompetitionRound' : $scope.round}
 
         }).then(function(){
             // $log.info('AdminCtrl: File uploaded succesfully');
             $scope.message = {show:true, details: "File uploaded succesfully!"};
         },function(){
-            // $log.error('AdminCtrl: Error uploading file');
             $scope.message = {show:true, details: "Error uploading file!"};
+            handleError('Error uploading file', response);
         });
     };
 
@@ -94,12 +107,12 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         // $log.info('AdminCtrl: Upload file to server to /api/team/upload/team');
         $http.post('/api/team/upload/team', fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition}
+            headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition.code}
         }).then(function(){
             // $log.info('AdminCtrl: File uploaded succesfully');
             $scope.message = {show:true, details: "File uploaded succesfully!"};
         },function(){
-            // $log.error('AdminCtrl: Error uploading file');
+            handleError('Error uploading file', response);
             $scope.message = {show:true, details: "Error uploading file!"};
         });
     }
