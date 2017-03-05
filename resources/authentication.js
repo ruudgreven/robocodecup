@@ -22,7 +22,7 @@ router.post('/', function (req, res) {
                     // Found user let's create a token.
                     var token = jwt.sign({username: user.username },
                         config.secret, {
-                            expiresIn: 1440
+                            expiresIn: '7d'
                         });
 
                     // Return token
