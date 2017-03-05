@@ -42,6 +42,10 @@ angular
                 templateUrl: 'views/admin/index.html',
                 controller: "AdminCtrl"
             })
+            .when('/admin/admin_competitions', {
+                templateUrl: 'views/admin/admin_competitions.html',
+                controller: "AdminCtrl"
+            })
             .when('/admin/upload_battles', {
                 templateUrl: 'views/admin/upload_battles.html',
                 controller: "AdminCtrl"

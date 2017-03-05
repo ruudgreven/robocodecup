@@ -8,12 +8,15 @@
  * Controller for all the admin pages.
  */
 angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http, $log, $location, LoginSrv, CompetitionSvc) {
-    // TODO: Retrieve teams at the proper time (now its on init).
+    // TODO: Retrieve competition and teams at the proper time (now its on init).
     // TODO: Think of a better url  for listing teams including secrets (its now "/api/competitions/<code>/team/all")
 
     $scope.competition = CompetitionSvc.getCurrentCompetition();
     $scope.round = CompetitionSvc.getCurrentRound();
+    $scope.competitions = [];
     $scope.teams = [];
+
+    $scope.nwCompetition = {};
 
     /**
      * Initializes this controller
@@ -26,6 +29,17 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
 
     $scope.$on('$routeChangeSuccess', function() {
         init();
+        retrieveCompetitions();
+        retrieveTeams();
+    });
+
+    /**
+     * When the something changed in the current competition, update the ranking
+     */
+    $scope.$on( 'competition.update', function( event ) {
+        $scope.competition = CompetitionSvc.getCurrentCompetition();
+        $scope.round = CompetitionSvc.getCurrentRound();
+        retrieveCompetitions();
         retrieveTeams();
     });
 
@@ -40,7 +54,12 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
             LoginSrv.clearCredentials();
             $location.path('/login');
         } else {
-            $log.error('AdminCtrl: ' + message + ': ' + errorResponse.statusText + ': ' + errorResponse.data);
+            if (errorResponse.data.error == true) {
+                $log.error('AdminCtrl: ' + message + ': ' + errorResponse.statusText + ': ' + errorResponse.data.message);
+            } else {
+                $log.error('AdminCtrl: ' + message + ': ' + errorResponse.statusText + ': ' + errorResponse.data);
+            }
+
         }
     };
 
@@ -53,12 +72,30 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
     };
 
     /**
+     * Retrieve a list of competitions from the server and set them to $scope.competitions
+     */
+    var retrieveCompetitions = function() {
+        var secretkey = LoginSrv.getLoginKey();
+
+        $log.info('AdminCtrl: Retrieving a list of competitions from the server');
+        $http({
+            method: 'GET',
+            url: '/api/competition',
+            headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
+        }).then(function success(response) {
+            $scope.competitions = response.data.competitions;
+        }, function error(response) {
+            handleError('Error retrieving competitions', response);
+        });
+    };
+
+    /**
      * Retrieves a list of teams from the server and set them to $scope.teams
      */
     var retrieveTeams = function() {
         var secretkey = LoginSrv.getLoginKey();
 
-        // $log.info('AdminCtrl: Retrieving a list of teams from the server');
+        $log.info('AdminCtrl: Retrieving a list of teams from the server');
         $http({
             method: 'GET',
             url: '/api/competition/' + $scope.competition.code + '/team/all',
@@ -80,7 +117,7 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         fd.append('file', $scope.battlefile);
         //TODO: Add competition to formdata instead of header
 
-        // $log.info('AdminCtrl: Upload file to server to /api/battle/upload');
+        $log.info('AdminCtrl: Upload file to server to /api/battle/upload');
         $http.post('/api/battle/upload', fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition.code, 'X-CompetitionRound' : $scope.round}
@@ -116,4 +153,32 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
             $scope.message = {show:true, details: "Error uploading file!"};
         });
     }
+
+    /**
+     * Add a competition to the server
+     */
+    $scope.addCompetition = function() {
+        var secretkey = LoginSrv.getLoginKey();
+
+        if ($scope.nwCompetition.official == undefined) {
+            $scope.nwCompetition.official = false;
+        }
+        if ($scope.nwCompetition.featured == undefined) {
+            $scope.nwCompetition.featured = false;
+        }
+
+        $log.info('AdminCtrl: Adding a competition ' + JSON.stringify($scope.nwCompetition));
+        $http({
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-Authentication' : secretkey},
+            url: '/api/competition',
+            data: $scope.nwCompetition
+        }).then(function success(response) {
+            $log.info('Added competition succesfully');
+            $scope.message = {show:true, details: "Added competition succesfully!"};
+        },function error(response){
+            $scope.message = {show:true, details: "Error adding competition!"};
+            handleError('Error adding competition', response);
+        });
+    };
 });
