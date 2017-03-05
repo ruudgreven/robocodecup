@@ -99,7 +99,7 @@ function uploadJar(req, res) {
                 }
 
                 //Store file in the created folder.
-                file.path = path.join(foldername + '/' + teamDoc.name + '-' + file.name);
+                file.path = path.join(foldername + '/' + teamDoc.name + '.jar');
                 filename = file.path;
             });
 
