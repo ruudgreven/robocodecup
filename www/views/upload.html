@@ -2,6 +2,24 @@
     <div ng-if="message.show" class="alert alert-info">
         {{message.details}}
     </div>
+    <div ng-if="error.show" class="alert alert-danger">
+        <strong>{{error.details}}</strong>
+        <br/>&nbsp;<br/>
+        Please check your teamfile! Check at least the following things:<br/>
+        <ul>
+            <li>Have you used the correct team code?</li>
+            <li>Your team must meet the packagename requirements as specified in the instructions</li>
+            <li>Your team must contains exactly 4 robot instances.</li>
+            <li>Have you followed the instruction for creating the JAR file carefully? Does robocode shows any exception in the console while creating the file?</li>
+            <li>Have you uploaded the correct file?</li>
+            <li>Have you tested your team succesfully on your local machine?</li>
+        </ul>
+        <br/>&nbsp;<br/>
+        If you're very sure about this consult your tutor!
+    </div>
+    <div ng-if="status.show" class="alert alert-warning">
+        Checking file... Please wait!
+    </div>
 
     <div class="form-group">
         <label for="secretkey">Your team code</label>

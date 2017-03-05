@@ -11,6 +11,8 @@ angular.module('robocodecupApp')
     .controller('UploadCtrl', function ($scope, $routeParams, $http, $log, config) {
         $scope.secretkey = '';
         $scope.teamfile = undefined;
+        $scope.message = {};
+        $scope.error = {};
 
         /**
          * Helper method for error handling. Removes token and redirects to the login page if the statuscode is 401
@@ -33,6 +35,10 @@ angular.module('robocodecupApp')
         };
 
         $scope.sendFile = function() {
+            $scope.message = {};
+            $scope.error = {};
+            $scope.status = {show: true};
+
             var secretkey = $scope.secretkey.toUpperCase();
 
             var fd = new FormData();
@@ -43,11 +49,17 @@ angular.module('robocodecupApp')
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined, 'X-Authentication' : secretkey}
             }).then(function(response){
+                $scope.status = {show: false};
                 $log.info('UploadCtrl: File uploaded succesfully');
                 $scope.message = {show:true, details: "File uploaded succesfully!"};
             },function(response){
-                handleError('Error by uploading file', response);
-                $scope.message = {show:true, details: "Error by uploading file!"};
+                $scope.status = {show: false};
+                handleError('Error uploading file', response);
+                if (response.data.error == true) {
+                    $scope.error = {show:true, details: response.data.message};
+                } else {
+                    $scope.error = {show:true, details: "Error uploading file!"};
+                }
             });
 
         }

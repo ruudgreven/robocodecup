@@ -145,10 +145,10 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         $http.post('/api/team/upload/team', fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined, 'X-Authentication' : secretkey, 'X-Competition' : $scope.competition.code}
-        }).then(function(){
+        }).then(function(response){
             // $log.info('AdminCtrl: File uploaded succesfully');
             $scope.message = {show:true, details: "File uploaded succesfully!"};
-        },function(){
+        },function(response){
             handleError('Error uploading file', response);
             $scope.message = {show:true, details: "Error uploading file!"};
         });
@@ -176,6 +176,7 @@ angular.module('robocodecupApp').controller('AdminCtrl', function ($scope, $http
         }).then(function success(response) {
             $log.info('Added competition succesfully');
             $scope.message = {show:true, details: "Added competition succesfully!"};
+            retrieveCompetitions();
         },function error(response){
             $scope.message = {show:true, details: "Error adding competition!"};
             handleError('Error adding competition', response);

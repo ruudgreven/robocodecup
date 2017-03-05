@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ruudgreven/robocodecup#readme",
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
