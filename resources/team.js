@@ -116,7 +116,9 @@ function uploadJar(req, res) {
                     checkTeamfile('nl.saxion.' + teamDoc.name.toLowerCase(), filename);
                     res.status(201).json({'error':false, 'message':'Upload succesfull.'})
                 } catch (error) {
-                    fs.unlinkSync(filename);
+                    if (fs.existsSync(filename)) {
+                        fs.unlinkSync(filename);
+                    }
                     console.error(error);
                     res.status(400).json({'error':true, 'message': 'The file does not meet the requirements: ' + error});
                 }
