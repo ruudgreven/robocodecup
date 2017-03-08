@@ -252,7 +252,7 @@ router.get('/:competition_code/round/:round_number/battle', function (req, res) 
         where.teams =
         {
             "$elemMatch":  {
-                team_name: req.query.team
+                team_name: req.query.team.toLowerCase()
             }
         };
     }
