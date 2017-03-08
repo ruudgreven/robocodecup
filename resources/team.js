@@ -164,7 +164,7 @@ var checkTeamfile = function(packagename, path) {
         throw 'There must be a minimum of one class file inside the JAR. You have 0';
     }
     for (var k in classDefs) {
-        var classDef = classDefs[k];
+        var classDef = classDefs[k].toLowerCase();
         if (classDef.indexOf(packagename) != 0) {
             throw 'All classes should be in package ' + packagename + '. The class ' + classDef + ' is not!';
         }
