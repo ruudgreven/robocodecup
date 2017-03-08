@@ -127,7 +127,9 @@ function uploadFile(req, res) {
                 if(err){
                     console.log("Something wrong when updating competition!");
                 }
-                var message = battleDocs.length + ' battles were successfully stored.';
+                //var message = battleDocs.length + ' battles were successfully stored.';
+                //TODO: FIX the message below. The variable battleDocs is not available due to async hell
+                var message = 'succesfully stored';
                 res.status(201).json({'error':false, 'message': message})
             });
         });

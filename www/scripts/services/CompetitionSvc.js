@@ -9,7 +9,7 @@
  * Contains information about the current competition
  */
 
-angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, $http, $log) {
+angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, $http, $log, $location) {
     var competitions;
     var currentcompetition;
     var currentround;
@@ -27,6 +27,10 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
                 url: '/api/competition'
             }).then(function success(response) {
                 competitions = response.data.competitions;
+                if (competitions.length == 0) {
+                    $log.info('No competitions available. Redirecting to admin');
+                    $location.path('/admin/admin_competitions');
+                }
                 competitionSvc.setCurrentCompetition(competitions[0].code)
                 $log.info('CompetitionsSrv: Loaded ' + competitions.length + ' competitions, current is ' + currentcompetition.code);
             }, function error(response) {
