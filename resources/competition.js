@@ -259,11 +259,16 @@ router.get('/:competition_code/round/:round_number/battle', function (req, res) 
     where.competition = req.params.competition_code;
     where.round = req.params.round_number;
 
+    // If we have no competition code or round number then simply return empty list.
+    if (req.params.competition_code === undefined || req.params.round_number === undefined) {
+        return res.status(200).json({ battles: [] });
+    }
+
     var fields = {round: true, competition: true, replayfile: true, teams: true, _id: false};
     Battle.find(where, fields, function (err, battles) {
         if (err) {
             console.error(err);
-            res.status(500).json({error: "true", message: "Cannot find battles"});
+            return res.status(500).json({error: "true", message: "Cannot find battles"});
         }
         var results = {battles: battles};
         res.status(200).json(results);
