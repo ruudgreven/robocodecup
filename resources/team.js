@@ -273,24 +273,23 @@ function uploadTeams(req, res) {
             if (teams[i].competitions === undefined) {
                 teams[i].competitions = [];
             }
+            // Force lower cases for the team code.
+            teams[i].code = teams[i].code.toLowerCase();
             teams[i].competitions.push(form.competition);
         }
 
         Team.collection.insert(teams, function (err, teamDocs) {
             if (err) {
                 console.log("Error inserting teams.");
-                res.status(500).json({'error':true, 'message': 'The teams already exist.'})
+                return res.status(500).json({'error':true, 'message': 'The teams already exist.'})
             }
             var message = teamDocs.insertedCount + ' teams were successfully stored.';
-
-            res.status(201).json({'error':false, 'message': message})
+            return res.status(201).json({'error':false, 'message': message})
         });
     });
 
     // Parse the incoming request.
     form.parse(req);
-
 }
-
 
 module.exports = router;
