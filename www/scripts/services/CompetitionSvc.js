@@ -9,7 +9,7 @@
  * Contains information about the current competition
  */
 
-angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, $http, $log, $location) {
+angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, $http, $log, $location, localStorageService) {
     var competitions;
     var currentcompetition;
     var currentround;
@@ -31,7 +31,13 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
                     $log.info('No competitions available. Redirecting to admin');
                     $location.path('/admin/admin_competitions');
                 }
-                competitionSvc.setCurrentCompetition(competitions[0].code)
+                if (localStorageService.get('currentcompetition') != undefined) {
+                    competitionSvc.setCurrentCompetition(localStorageService.get('currentcompetition').code);
+                    $rootScope.$broadcast('competition.update');
+                } else {
+                    competitionSvc.setCurrentCompetition(competitions[0].code)
+                }
+
                 $log.info('CompetitionsSrv: Loaded ' + competitions.length + ' competitions, current is ' + currentcompetition.code);
             }, function error(response) {
                 $log.error('There was an error: ' + response);
@@ -67,6 +73,8 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
                 var competition = competitions[i];
                 if (competition.code == code) {
                     currentcompetition = competitions[i];
+                    localStorageService.set('currentcompetition', currentcompetition);
+
                     if (competitions[i].rounds[0] != undefined) {
                         currentround = competitions[i].rounds[0];
                         $log.info('CompetitionsSrv: Set current competition to ' + competition.code + ' with round ' + currentround);
