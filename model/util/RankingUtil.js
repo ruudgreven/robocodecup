@@ -11,7 +11,7 @@ var updateRanking = function (competition_id, round, callback) {
     //  - we sort the list by the total points (descending).
     Battle.aggregate(
         [
-            {$match: {round: round}},
+            {$match: {competition: competition_id, round: round}},
             {$unwind: "$teams"},
             {
                 $group: {
