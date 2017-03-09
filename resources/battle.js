@@ -6,6 +6,7 @@ var fs = require('fs');
 
 var Battle = require('../model/Battle');
 var Competition = require('../model/Competition');
+var Ranking = require('../model/Ranking');
 var User = require('../model/User');
 
 // List all battles.
@@ -109,34 +110,103 @@ function uploadFile(req, res) {
     // Send a response to the client when file upload is finished.
     form.on('end', function() {
 
-        var battles = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-        for (var i = 0, len = battles.length; i < len; i++) {
-            battles[i].competition = form.competition;
-            battles[i].round = form.round;
+        // Check if we have a round and competition.
+        if (!isValid(form.competition) || !isValid(form.round)) {
+            return res.status(500).json({'error':true, 'message': 'No valid competition or roudn specified.'})
         }
 
-        // Battle.collection.insert(battles, function (err, battleDocs) {
-        Battle.insertMany(battles, function (err, battleDocs) {
+        var fields = {};
+        Competition.findOne({code: form.competition, rounds:form.round}, fields,  function (err, competitions) {
             if (err) {
-                console.log("Error inserting battles.");
-                res.status(500).json({'error':true, 'message': 'The battles already exist.'})
+                console.log("Error querying competition: "+err);
+                return res.status(500).json({'error':true, 'message': 'Cannot find competition and round'});
             }
 
-            //TODO: Check whether round already exists.
-            Competition.findOneAndUpdate({code: form.competition}, {$push:{rounds:form.round}}, function(err, doc){
-                if(err){
-                    console.log("Something wrong when updating competition!");
-                }
-                //var message = battleDocs.length + ' battles were successfully stored.';
-                //TODO: FIX the message below. The variable battleDocs is not available due to async hell
-                var message = 'succesfully stored';
-                res.status(201).json({'error':false, 'message': message})
-            });
+            if (competitions === null || competitions === undefined) {
+                // Let's simply add the battles (which automatically
+                // computes the ranking) and update the rounds in competition.
+                insertBattles(filepath, form.competition, form.round, res);
+
+            } else {
+                // We already have a round in the competition. Let's replace the ranking and battles.
+                // Clean up first:
+                // 1. Ranking for round
+                // 2. Battles for round
+                // 3. Round in competition
+                Ranking.remove({competition: form.competition, round: form.round}, function (err) {
+                    if (err) {
+                        console.log("Error removing previous ranking: "+err);
+                        return res.status(500).json({'error':true, 'message': 'Cannot remove previous ranking.'});
+                    }
+                    Battle.remove({competition: form.competition, round: form.round}, function (err) {
+                        if (err) {
+                            console.log("Error removing previous battles: "+err);
+                            return res.status(500).json({'error':true, 'message': 'Cannot remove previous battles.'});
+                        }
+                        Competition.findOneAndUpdate({code: form.competition}, {$pull: {rounds: form.round}}, function(err, data){
+                            if (err) {
+                                console.log("Error updating rounds in competition: "+err);
+                                return res.status(500).json({'error':true, 'message': 'Cannot update rounds in competition.'});
+                            }
+                            insertBattles(filepath, form.competition, form.round, res);
+                        });
+                    });
+                });
+            }
+
         });
+
     });
 
     // Parse the incoming request.
     form.parse(req);
 }
+
+/**
+ * Checks if the supplied parameter is not null, undefined or an empty string.
+ * @param toCheck
+ * @returns {boolean}
+ */
+var isValid = function(toCheck) {
+    if (toCheck === undefined || toCheck === null || toCheck === "") {
+        return false;
+    }
+    return true;
+};
+
+/**
+ * Inserts the battles in the database.
+ * @param filepath
+ * @param competition
+ * @param round
+ * @param res
+ */
+var insertBattles = function(filepath, competition, round, res) {
+
+    var battles = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    for (var i = 0, len = battles.length; i < len; i++) {
+        battles[i].competition = competition;
+        battles[i].round = round;
+    }
+
+    Battle.insertMany(battles, function (err, battleDocs) {
+        if (err) {
+            console.log("Error inserting battles: "+err);
+            return res.status(500).json({'error':true, 'message': 'The battles already exist.'})
+        }
+
+        // Update rounds in the competition.
+        Competition.findOneAndUpdate({code: competition}, {$push:{rounds:round}}, function(err, doc){
+            if(err){
+                console.log("Something wrong when updating competition!");
+                return res.status(500).json({'error':true, 'message': 'Something wrong when updating competition!'})
+            }
+            //var message = battleDocs.length + ' battles were successfully stored.';
+            //TODO: FIX the message below. The variable battleDocs is not available due to async hell
+            var message = 'succesfully stored';
+            return res.status(201).json({'error':false, 'message': message})
+        });
+    });
+};
 
 module.exports = router;
