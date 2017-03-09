@@ -11,6 +11,10 @@ angular.module('robocodecupApp').controller('HeaderCtrl', function ($scope, $htt
     $scope.competitions = [];
     $scope.currentcompetition = undefined;
 
+    $scope.$on( 'competition.update', function( event ) {
+        $scope.competitions = CompetitionSvc.getCompetitions();
+        $scope.currentcompetition = CompetitionSvc.getCurrentCompetition();
+    });
     /**
      * Constructor
      * Retrieves the list of competitions from the server and add the featured competition as the default competition

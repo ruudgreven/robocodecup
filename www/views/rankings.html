@@ -18,11 +18,12 @@
                 <tr>
                     <th class="col-md-1">#</th>
                     <th class="col-md-6">Name</th>
-                    <th class="col-md-1 active">Played</th>
+
+                    <th class="col-md-1 active" title="Total points this round">Points</th>
+                    <th class="col-md-1">Played</th>
                     <th class="col-md-1 success" title="# of battles won">Won</th>
                     <th class="col-md-1 warning" title="# of battles lost">Lost</th>
                     <th class="col-md-1 danger" title="# of battles disqualified">Disq</th>
-                    <th class="col-md-1 active" title="Total points this round">Points</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,11 +33,12 @@
                         <img src="images/{{ranking.team.logo}}" style="height: 32px;" alt="Teamlogo {{ranking.team.name}}" class="img-circle">
                         <a href="#!/team/{{ranking.team.code}}">{{ranking.team.name}}</a>
                     </td>
-                    <td class="active vert-align">{{ranking.played}}</td>
+
+                    <td class="active vert-align"><h3>{{ranking.points}}</h3></td>
+                    <td class="vert-align">{{ranking.played}}</td>
                     <td class="success vert-align">{{ranking.wins}}</td>
                     <td class="warning vert-align">{{ranking.loses}}</td>
                     <td class="danger vert-align">{{ranking.disqualifications}}</td>
-                    <td class="active vert-align">{{ranking.points}}</td>
                 </tr>
             </tbody>
         </table>

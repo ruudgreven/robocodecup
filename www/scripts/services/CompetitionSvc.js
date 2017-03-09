@@ -33,10 +33,10 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
                 }
                 if (localStorageService.get('currentcompetition') != undefined) {
                     competitionSvc.setCurrentCompetition(localStorageService.get('currentcompetition').code);
-                    $rootScope.$broadcast('competition.update');
                 } else {
                     competitionSvc.setCurrentCompetition(competitions[0].code)
                 }
+                $rootScope.$broadcast('competition.update');
 
                 $log.info('CompetitionsSrv: Loaded ' + competitions.length + ' competitions, current is ' + currentcompetition.code);
             }, function error(response) {

@@ -33,6 +33,7 @@ angular.module('robocodecupApp')
             var round = CompetitionSvc.getCurrentRound();
             if (round == undefined) {
                 $log.info("RankingsCtrl: No current round, cannot show ranking");
+                $scope.rankings = [];
                 return;
             }
             var url = '/api/competition/' + $scope.competition.code  + '/round/' + $scope.round + '/ranking';
