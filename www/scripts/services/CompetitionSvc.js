@@ -27,6 +27,17 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
                 url: '/api/competition'
             }).then(function success(response) {
                 competitions = response.data.competitions;
+
+                //Turn around the list of rounds
+                for (var i = 0; i < competitions.length; i++) {
+                    var competition = competitions[i];
+                    var nwRounds = [];
+                    for (var j = competition.rounds.length - 1; j >= 0 ; j--) {
+                        nwRounds.push(competition.rounds[j]);
+                    }
+                    competition.rounds = nwRounds;
+                }
+
                 if (competitions.length == 0) {
                     $log.info('No competitions available. Redirecting to admin');
                     $location.path('/admin/admin_competitions');
