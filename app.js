@@ -68,6 +68,6 @@ db.once('open', function () {
 });
 
 // Bind app to port 3000
-app.listen(3000, function () {
+app.listen(config.port, function () {
     console.log('* Robocodecup website listening on port 3000.');
 });
