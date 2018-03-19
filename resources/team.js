@@ -202,8 +202,8 @@ var checkTeamfile = function(packagename, path) {
 
         //Check the robocode version
         if (line.startsWith('robocode.version=')) {
-            if (line.indexOf('1.9.2.6') <= -1) {
-                throw 'Wrong robocode version, must be 1.9.2.6, found ' + line.substr(17);
+            if (line.indexOf('1.9.3.0') <= -1) {
+                throw 'Wrong robocode version, must be 1.9.3.0, found ' + line.substr(17);
             }
         }
     }
