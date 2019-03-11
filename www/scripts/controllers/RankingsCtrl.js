@@ -23,6 +23,10 @@ angular.module('robocodecupApp')
         });
 
         $scope.$watch('round', function() {
+            // Store new round in localstorage
+            CompetitionSvc.setCurrentRound($scope.round);
+
+            // Update the ranking.
             updateRanking();
         });
 

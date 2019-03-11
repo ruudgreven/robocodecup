@@ -72,7 +72,11 @@ angular.module('robocodecupApp').factory('CompetitionSvc', function($rootScope, 
         },
 
         getCurrentRound: function() {
-            return currentround;
+            return localStorageService.get('currentround');
+        },
+
+        setCurrentRound: function(currentround) {
+            localStorageService.set('currentround', currentround);
         },
 
         /**

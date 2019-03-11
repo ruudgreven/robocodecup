@@ -14,6 +14,10 @@ angular.module('robocodecupApp')
         $scope.round = CompetitionSvc.getCurrentRound();
 
         $scope.$watch('round', function() {
+            // Store new round in localstorage
+            CompetitionSvc.setCurrentRound($scope.round);
+
+            // Update list of battles for teams.
             updateTeamBattlesPerRound();
         });
 
